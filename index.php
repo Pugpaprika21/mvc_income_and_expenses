@@ -27,16 +27,16 @@ class HttpString
     }
     /**
      * @param string $param_name
-     * @return array
+     * @return object
      */
-    public function showOne(string $param_name): array
+    public function showOne(string $param_name): object
     {
         if (is_array($this->arrParamsQuery) && is_string($param_name)) {
             parse_str($this->arrParamsQuery[$param_name], $params);
-            return $params;
+            return (object)$params;
         }
 
-        return [];
+        return (object)[];
     }
 }
 
