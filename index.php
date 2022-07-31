@@ -1,47 +1,34 @@
-<?php
+<?php require_once dirname(__DIR__) . '../mvc_income_and_expenses/pug_framework/resource/view/bootstrap/bootstrap_component_layout/header.php'; ?>
 
-use Pug_Framework\Http\Http_Response\Response;
-use Pug_Framework\Include\Autoload\Autoloader;
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Pricing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled">Disabled</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-require_once dirname(__DIR__) . '../mvc_income_and_expenses/pug_framework/include/autoload/Autoload.php';
+<br>
 
-define('load', Autoloader::register());
+<div class="container">
+   
+</div>
 
-class HttpString
-{
-    private $arrParamsQuery = [];
-    /**
-     * @param string $url
-     * @return object
-     */
-    public function getUrlComponents(string $url): object
-    {
-        if (is_string($url)) {
-            $url_components = parse_url($url);
-            $this->arrParamsQuery = $url_components;
-            return $this;
-        }
-
-        $this->arrParamsQuery = ['error' =>  false];
-        return $this;
-    }
-    /**
-     * @param string $param_name
-     * @return object
-     */
-    public function showOne(string $param_name): object
-    {
-        if (is_array($this->arrParamsQuery) && is_string($param_name)) {
-            parse_str($this->arrParamsQuery[$param_name], $params);
-            return (object)$params;
-        }
-
-        return (object)[];
-    }
-}
-
-$httpResult = (new HttpString())
-    ->getUrlComponents('https://www.geeksforgeeks.org?name=Tonny&age=24')
-    ->showOne('query');
-
-print_r($httpResult);
+<?php require_once dirname(__DIR__) . '../mvc_income_and_expenses/pug_framework/resource/view/bootstrap/bootstrap_component_layout/footer.php'; ?>
