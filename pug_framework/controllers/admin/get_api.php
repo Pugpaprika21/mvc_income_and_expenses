@@ -17,9 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     $result = ['api' => Api::option(['url' => $url, 'method' => $method])->result];
 
-    $users_data = (new AdminController())->getUsers();
+    $users_data = new AdminController();
     
-    Response::render($users_data)->toArray();
+    Response::render((array)$users_data)->toArray();
     
 } else {
     
