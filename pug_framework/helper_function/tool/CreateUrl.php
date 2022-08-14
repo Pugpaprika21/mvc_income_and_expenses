@@ -17,14 +17,24 @@ final class CreateUrl
      */
     public static function display_path(string $path_url): self
     {
-        if ($path_url !== '') {
-            if (file_exists($path_url)) {
-                self::$json_result_path = json_encode(['status' => self::STATUS_PATH_FIND, 'path_url' => $path_url]);
-                return new self;
-            } else {
-                self::$json_result_path = json_encode(['status' => self::STATUS_PATH_NOT_FOUND, 'path_error' => self::MEASSGE_PATH_NOT_FOUND, 'path_url' => $path_url]);
-                return new self;
-            }
+        if (file_exists($path_url)) {
+
+            self::$json_result_path = json_encode([
+                'status' => self::STATUS_PATH_FIND, 
+                'path_url' => $path_url
+            ]);
+
+            return new self;
+
+        } else {
+
+            self::$json_result_path = json_encode([
+                'status' => self::STATUS_PATH_NOT_FOUND, 
+                'path_error' => self::MEASSGE_PATH_NOT_FOUND, 
+                'path_url' => $path_url
+            ]);
+
+            return new self;
         }
 
         return new self;
@@ -49,8 +59,3 @@ final class CreateUrl
         }
     }
 }
-
-
-
-
-
