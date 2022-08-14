@@ -58,13 +58,26 @@
 <script>
     $(document).ready(function() {
         // ...
+        $('#image').change(function (e) { 
+            e.preventDefault();
+            console.log(e);
+        });
+
         $('.form-register > form').submit(function(e) {
             e.preventDefault();
 
             const Fd = new FormData($(this)[0]);
             Fd.append('register', 'addData');
 
-            $.ajax({
+            let fileName = Fd.get('image').name;
+            let fileSize = Fd.get('image').size;
+            let checkFile = Fd.get('image').type;
+            
+
+            console.log(fileName);
+
+
+            /* $.ajax({
                 type: "POST",
                 dataType: "json",
                 url: "../../../../../mvc_income_and_expenses/pug_framework/controllers/home/getData_register.php",
@@ -75,7 +88,7 @@
                 success: function(response) {
                     console.log(response);
                 }
-            });
+            }); */
 
         });
     });
