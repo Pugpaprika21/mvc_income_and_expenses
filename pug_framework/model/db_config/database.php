@@ -31,7 +31,7 @@ class Database
         $this->server = "localhost";
         $this->username = "root";
         $this->password = "";
-        $this->dbname = "pug_framework";
+        $this->dbname = "mvc_income_and_expenses";
     }
     /**
      * @return object

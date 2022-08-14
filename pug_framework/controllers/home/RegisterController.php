@@ -3,6 +3,7 @@
 namespace Pug_Framework\Controllers\Home;
 
 use Pug_Framework\Helper_Function\Tool\CreateUrl;
+use Pug_Framework\Http\Http_Response\Response;
 use Pug_Framework\Model\Query_Builder\Query;
 
 require_once dirname(__DIR__) . '../../../pug_framework/include/autoload/autoload.php';
@@ -22,7 +23,9 @@ class RegisterController
             'password' => $request->password
         ]);
 
-        $sqlRegister = "INSERT INTO user_tb(username, password, gmail, phone, image, datetime, role) VALUES(:username, :password, :gmail, :phone, :image, :datetime, :role)";
+        Response::render($selectCheck)->jsonString();
+
+        /* $sqlRegister = "INSERT INTO user_tb(username, password, gmail, phone, image, datetime, role) VALUES(:username, :password, :gmail, :phone, :image, :datetime, :role)";
       
         $checkQuery = (new Query())->insert($sqlRegister, [
             'username' => $request->username,
@@ -42,6 +45,6 @@ class RegisterController
             ]);
         }
 
-        return;
+        return; */
     }
 }

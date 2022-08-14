@@ -1,4 +1,4 @@
-<?php require_once dirname(__DIR__) . '../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_component_layout/header.php'; ?>
+<?php require_once dirname(__DIR__) . '../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_layout_default/header.php'; ?>
 
 <style>
     .card {
@@ -73,8 +73,15 @@
                                 <label for="password">Password</label>
                             </div>
                         </div>
+
+                        <div class="row row-cols-lg-auto g-3 align-items-center">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-sm btn-outline-primary" id="btn-register" onclick="register(this);">register</button>
+                            </div>
+                        </div>
+
                         <div class="btn-submit">
-                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                            <button type="submit" class="btn btn-primary mt-3 w-100">Login</button>
                         </div>
                     </form>
                 </div>
@@ -83,7 +90,7 @@
     </div>
 </div>
 
-<?php require_once dirname(__DIR__) . '../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_component_layout/footer.php'; ?>
+<?php require_once dirname(__DIR__) . '../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_layout_default/footer.php'; ?>
 
 <script>
     $(document).ready(function() {
@@ -117,9 +124,6 @@
                 type: "GET",
                 dataType: "json",
                 url: "../../../mvc_income_and_expenses/pug_framework/controllers/home/getUrl.php",
-                data: {
-                    getUrl: 'getUrl'
-                },
                 success: function(response) {
                     window.location.href = response.path_url;
                 },
@@ -129,4 +133,20 @@
             });
         }
     });
+
+    function register(_this) {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "../../../mvc_income_and_expenses/pug_framework/controllers/home/getUrl_register.php",
+            data: "data",
+            success: function(response) {
+                window.location.href = response.path_url;
+                //console.log(response);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
 </script>

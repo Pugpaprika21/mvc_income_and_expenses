@@ -10,13 +10,11 @@ define('load', Autoloader::register());
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-    $pathLocationToView = '../../../../mvc_income_and_expenses/pug_framework/resource/view/home/login.php';
-    CreateUrl::display_path($pathLocationToView)->withQueryString([
+    $urlRegisterView = '../../../../mvc_income_and_expenses/pug_framework/resource/view/home/register.php';
+    CreateUrl::display_path($urlRegisterView)->withQueryString([
         'status' => 200
     ]);
 
 } else {
     Response::render(['status' => 500, 'path_url' => CreateUrl::DEFAULT_INDEX_PAGE_PHP])->jsonString();
 }
-
-
