@@ -8,7 +8,7 @@ class Autoloader
      * @var string
      * ทั้ง class เเละ ชื่อไฟล์ ต้องเหมือนกันทั้งหมด
      */
-    public static $folder_name = '/pug_Framework/'; //<--- config root directory
+    public static $folder_name = '/mvc_income_and_expenses/'; //<--- config root directory
     public static $get_className = '';
     /**
      * @return void
@@ -29,8 +29,8 @@ class Autoloader
     /**
      * @return void
      */
-    public static function get_className(): void
+    /* public static function get_className(): void
     {
         echo __CLASS__;
-    }
+    } */
 }
