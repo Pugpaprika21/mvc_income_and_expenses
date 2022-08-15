@@ -72,11 +72,9 @@
             let fileName = Fd.get('image').name;
             let fileSize = Fd.get('image').size;
             let checkFile = Fd.get('image').type;
-            
-
+        
             console.log(fileName);
-
-
+            
             /* $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -92,4 +90,5 @@
 
         });
     });
+
 </script>
