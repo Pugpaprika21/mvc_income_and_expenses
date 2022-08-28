@@ -11,14 +11,10 @@ define('load', Autoloader::register());
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    /* $req = Request::any()->toStdClass();
-    $register = (new RegisterController())->register($req); */
-
-    $req = Request::any('image')->toStdClass();
-    echo '<pre>';
-    print_r($req);
-    echo '</pre>';
-    
+    $register = (new RegisterController())
+        ->register(Request::any('image')
+        ->toStdClass());
+        
 } else {
     Response::error();
 }

@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <img src="../../../../../mvc_income_and_expenses/pug_framework/public/image/maxresdefault.jpg" class="img-fluid rounded" alt="...">
+                            <img src="../../../../../mvc_income_and_expenses/pug_framework/public/image/maxresdefault.jpg" class="img-fluid rounded">
                         </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary w-100">register</button>
@@ -57,10 +57,10 @@
 
 <script>
     $(document).ready(function() {
-        // ...
-        $('#image').change(function (e) { 
+
+        $('#image').change(function(e) {
             e.preventDefault();
-            console.log(e);
+            //console.log(e);
         });
 
         $('.form-register > form').submit(function(e) {
@@ -72,10 +72,8 @@
             let fileName = Fd.get('image').name;
             let fileSize = Fd.get('image').size;
             let checkFile = Fd.get('image').type;
-        
-            console.log(fileName);
-            
-            /* $.ajax({
+
+            $.ajax({
                 type: "POST",
                 dataType: "json",
                 url: "../../../../../mvc_income_and_expenses/pug_framework/controllers/home/getData_register.php",
@@ -84,11 +82,11 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    console.log(response);
+                    if (response.path_url != '') {
+                        window.location.href = response.path_url;
+                    }
                 }
-            }); */
-
+            });
         });
     });
-
 </script>
