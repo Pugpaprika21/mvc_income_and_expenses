@@ -1,5 +1,4 @@
 <?php require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_layout_home/header.php'; ?>
-
 <?php require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_component_default_home/navbar_top.php'; ?>
 
 <div class="container">
