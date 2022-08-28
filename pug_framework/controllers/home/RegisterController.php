@@ -59,7 +59,8 @@ class RegisterController
             ]);
 
             if ($checkQuery) {
-                $locationViewLogin = '../../../../../mvc_income_and_expenses/pug_framework/resource/view/home/login.php';
+                // $locationViewLogin = '../../../../../mvc_income_and_expenses/pug_framework/resource/view/home/login.php';
+                $locationViewLogin = '../../../../../mvc_income_and_expenses/index.php';
                 CreateUrl::display_path($locationViewLogin)->withQueryString([
                     'status' => 200,
                     'message' => 'register_completed'

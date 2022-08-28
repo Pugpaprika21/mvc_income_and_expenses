@@ -4,10 +4,6 @@
     .card {
         margin-top: 50px;
     }
-
-    /*  input[type=text] {
-        height: 20px;
-    } */
 </style>
 
 <nav class="navbar navbar-expand-lg bg-dark">
@@ -46,7 +42,9 @@
     <div class="d-flex justify-content-center">
         <div class="card shadow rounded" style="width: 35rem;">
             <div class="card-header">
-                <h4>Login</h4>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-door-open-fill" viewBox="0 0 16 16">
+                    <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z" />
+                </svg> Login
             </div>
             <div class="card-body">
                 <div class="form-login">
@@ -104,7 +102,7 @@
             Fd.append('password', $('#password').val());
 
             if (Fd.get('username') !== '' && Fd.get('password') !== '') {
-                //getUrl();
+              
                 $.ajax({
                     type: "POST",
                     dataType: "json",
@@ -113,7 +111,7 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        console.log(response);
+                        window.location.href = response.path_url;
                     }
                 });
             }
@@ -142,7 +140,6 @@
             data: "data",
             success: function(response) {
                 window.location.href = response.path_url;
-                //console.log(response);
             },
             error: function(error) {
                 console.log(error);

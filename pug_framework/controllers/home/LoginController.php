@@ -2,6 +2,7 @@
 
 namespace Pug_Framework\Controllers\Home;
 
+use Pug_Framework\Helper_Function\Tool\CreateUrl;
 use Pug_Framework\Http\Http_Response\Response;
 use Pug_Framework\Model\Query_Builder\Query;
 
@@ -23,6 +24,13 @@ class LoginController
             'password' => $request->password
         ]);
 
-        Response::render($resQuery)->jsonString();
+        if (count($resQuery) > 0) {
+
+            $locationViewLogin = '../../../../mvc_income_and_expenses/pug_framework/resource/view/user/user_page.php';
+            CreateUrl::display_path($locationViewLogin)->withQueryString([
+                'status' => 200,
+                'message' => 'login_completed'
+            ]);
+        }
     }
 }
