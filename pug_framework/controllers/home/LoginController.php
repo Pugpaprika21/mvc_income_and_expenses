@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pug_Framework\Controllers\Home;
 
 use Pug_Framework\Helper_Function\Tool\CreateUrl;
