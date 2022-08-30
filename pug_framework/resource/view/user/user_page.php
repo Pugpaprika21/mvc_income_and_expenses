@@ -66,4 +66,5 @@
     function dataTable(eName) {
         return $(eName).DataTable();
     }
+
 </script>
