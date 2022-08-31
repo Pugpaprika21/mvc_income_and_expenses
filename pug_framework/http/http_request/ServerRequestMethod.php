@@ -2,37 +2,39 @@
 
 namespace Pug_Framework\Http\Http_Request;
 
-class SeverRequestMethod
+class ServerRequestMethod
 {
-    private array $serverMethod = [
-        'POST',
-        'GET',
-        'PUT',
-        'DELETE',
-        'PATCH'
-    ];
+    private string $resultMethod = '';
+    private array $serverMethod = ['POST', 'GET', 'PUT', 'DELETE', 'PATCH', 'post', 'get', 'put', 'delete', 'patch'];
     /**
-     * @param string $methodOption
      * @return object
      */
-    public function required(string $methodOption): string
+    public function required(): object
     {
-        $count = 0;
-        $defultMethod = $_SERVER['REQUEST_METHOD'];
+        $defultMethod = htmlspecialchars($_SERVER['REQUEST_METHOD']);
 
-        if ($this->checkStringCase($methodOption) !== '') {
+        for ($i = 0; $i < count($this->serverMethod); $i++) {
 
-            $strCase = $this->checkStringCase($methodOption);
-
-            for ($i = 0; $i < count($this->serverMethod); $i++) {
-
-                if ($this->serverMethod[$i] == $strCase) {
-                    return $this->serverMethod[$i];
-                }
+            if ($this->serverMethod[$i] == $this->checkStringCase($defultMethod)) {
+                $this->resultMethod = $this->checkStringCase($defultMethod);
+                return $this;
             }
+        }
 
+        $this->resultMethod = '';
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function actionName(string $nameParam): string
+    {
+        if ($this->resultMethod !== '') {
+            // ...
             return '';
         }
+
+        return '';
     }
     /**
      * @param string $checkString
@@ -50,9 +52,4 @@ class SeverRequestMethod
 
         return $stringCase;
     }
-}
-
-$serverMethod = new SeverRequestMethod();
-
-if ($serverMethod->required('POST')) {
 }

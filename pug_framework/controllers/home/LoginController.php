@@ -27,6 +27,11 @@ class LoginController
         if (count($resQuery) > 0) {
 
             $locationViewLogin = '../../../../mvc_income_and_expenses/pug_framework/resource/view/user/user_page.php';
+
+            $_SESSION['user_id'] = $resQuery[0]->id;
+            $_SESSION['username'] = $resQuery[0]->username;
+            $_SESSION['password'] = $resQuery[0]->password;
+
             CreateUrl::display_path($locationViewLogin)->withQueryString([
                 'status' => 200,
                 'message' => 'login_completed'

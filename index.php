@@ -50,34 +50,18 @@
                 <div class="form-login">
                     <form method="post">
                         <div class="input-group mb-3">
-                            <span class="input-group-text">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                                </svg>
-                            </span>
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Username">
-                                <label for="username">Username</label>
-                            </div>
+                            <span class="input-group-text" id="basic-addon1">ชื่อผู้ใช้</span>
+                            <input type="text" class="form-control" placeholder="Username" id="username" name="username" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
-                                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
-                                </svg>
-                            </span>
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="password" name="password" placeholder="Password">
-                                <label for="password">Password</label>
-                            </div>
+                            <span class="input-group-text" id="basic-addon1">รหัสผ่าน</span>
+                            <input type="text" class="form-control" placeholder="Password" id="password" name="password" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
-
                         <div class="row row-cols-lg-auto g-3 align-items-center">
                             <div class="col-12">
                                 <button type="button" class="btn btn-sm btn-outline-primary" id="btn-register" onclick="register(this);">register</button>
                             </div>
                         </div>
-
                         <div class="btn-submit">
                             <button type="submit" class="btn btn-primary mt-3 w-100">Login</button>
                         </div>
@@ -102,7 +86,7 @@
             Fd.append('password', $('#password').val());
 
             if (Fd.get('username') !== '' && Fd.get('password') !== '') {
-              
+
                 $.ajax({
                     type: "POST",
                     dataType: "json",

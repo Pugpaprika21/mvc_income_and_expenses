@@ -2,6 +2,8 @@
 
 namespace Pug_Framework\Include\Autoload;
 
+session_start();
+
 class Autoloader
 {
     /**
