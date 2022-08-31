@@ -3,7 +3,7 @@
 use Pug_Framework\Helper_Function\Date_Func\DateThai;
 use Pug_Framework\Include\Autoload\Autoloader;
 
-require_once '../../../../../mvc_income_and_expenses/pug_framework/include/autoload/Autoload.php';
+require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_framework/include/autoload/Autoload.php';
 
 define('load', Autoloader::register());
 
@@ -53,7 +53,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                                 <table class="table table-bordered text-center">
                                     <thead>
                                         <tr>
-                                            <td>ลำดับ</td>
+                                            <td>เเถว</td>
                                             <td>วันที่รับ</td>
                                             <td>ชื่อสินค้า</td>
                                             <td>ราคาสินค้า</td>
@@ -65,8 +65,8 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                                     <tbody>
 
                                         <tr id="displayRow">
-                                            <td>
-                                                #
+                                            <td id="showCountClick">
+                                                
                                             </td>
                                             <td>
                                                 <div class="col">
@@ -116,6 +116,8 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
     </div>
 </div>
 
+<!-- <a href="../../../../../mvc_income_and_expenses/pug_framework/controllers/addRevenue/insert_revenue.php"></a> -->
+
 <?php require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_layout_user/footer.php'; ?>
 
 <script>
@@ -124,8 +126,6 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
     $(document).ready(function() {
         dataTable('#myTable');
         getUserProfile();
-
-        //$('#btn-submit').click();
 
         $('#formAdd_revenue_tb').submit(function(e) {
             e.preventDefault();
@@ -136,8 +136,8 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "url",
-                data: "data",
+                url: "../../../../../mvc_income_and_expenses/pug_framework/controllers/addRevenue/insert_revenue.php",
+                data: Fd,
                 processData: false,
                 contentType: false,
                 success: function(response) {
@@ -191,7 +191,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                         </div>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-outline-danger">
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(${index}, ${countRow});">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
                                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
@@ -202,8 +202,15 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
             `;
         }
 
+        $('#showCountClick').html(index + 1);
         $('#displayRow').after(htmlRows);
         countRow++;
+    }
+
+    function removeRow(index, countRow) { 
+        $(`#trNumRows-${index}`).remove();
+        $('#showCountClick').html(index - 1);
+        index--;
     }
 
     function getUserProfile() {
@@ -223,4 +230,5 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
             }
         });
     }
+
 </script>

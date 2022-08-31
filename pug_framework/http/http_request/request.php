@@ -130,6 +130,15 @@ final class Request
         return new self;
     }
     /**
+     * @return self
+     */
+    public static function postMultiple(): self
+    {
+        $postArray = ($_POST) ? $_POST : [];
+        self::$output_request_all = $postArray;
+        return new self;
+    } 
+    /**
      * @return array
      */
     public function toArray(): array
