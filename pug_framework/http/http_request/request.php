@@ -115,6 +115,7 @@ final class Request
                     $files_request_output[$files_request_key] = htmlspecialchars($files_request_value);
                 }
             }
+            
         } else {
             $files_request_output = ['files' => 'Filename not found!'];
         }
@@ -134,7 +135,7 @@ final class Request
      */
     public static function postMultiple(): self
     {
-        $postArray = ($_POST) ? $_POST : [];
+        $postArray = !empty($_POST) ? $_POST : [];
         self::$output_request_all = $postArray;
         return new self;
     } 
