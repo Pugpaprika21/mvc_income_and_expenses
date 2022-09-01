@@ -11,7 +11,9 @@ define('load', Autoloader::register());
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    //(new RevenueController)->addToRevenueTable(Request::post()->toArray());
-    $request = Request::postMultiple()->toArray();
-    Response::render($request)->jsonString();
+    $user_id = $_SESSION['user_id']; 
+
+    (new RevenueController)->addToRevenueTable(Request::postMultiple()->toStdClass());
+    /* $request = Request::postMultiple()->toArray();
+    Response::render($request)->toArray(); */
 }

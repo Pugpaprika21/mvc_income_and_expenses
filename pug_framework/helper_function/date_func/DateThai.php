@@ -31,6 +31,7 @@ class DateThai
             'day' => date('d'),
             'month' => date('m'),
             'year' => substr($strYear, 2),
+            'ymd' => date('Y-m-d'),
             'monthYearFull' => $strFullMonthThai . ' ' . $strYear,
             'dayMonthYearCut' => $strDay . ' ' . $strMonthThai . ' ' . substr($strYear, 2)
         ];
