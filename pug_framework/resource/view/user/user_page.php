@@ -12,7 +12,6 @@ $dateThai = new DateThai();
 $dayMonthYearCutResult = $dateThai->get(date('Y-m-d'))->dayMonthYearCut;
 $dateInput = $dateThai->get(date('Y-m-d'))->ymd;
 
-
 require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_layout_user/header.php';
 require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_component_user/navbar_top.php';
 
@@ -87,14 +86,28 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
 
         $('#formAdd_expenses_tb').submit(function(e) {
             e.preventDefault();
-            console.log('hahaha');
+
+            let eId = $('#formAdd_expenses_tb');
+            let Fd = new FormData(eId[0]);
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "../../../../../mvc_income_and_expenses/pug_framework/controllers/addExpenses/insert_expenses.php",
+                data: Fd,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    console.log(response);
+                }
+            });
         });
 
         // formAdd_revenue_tb
-        sumMultiple('#formAdd_revenue_tb', 'input', '.revenue_total', '#formAdd_revenue_tb .revenue_total');
+        //sumMultiple('#formAdd_revenue_tb', 'input', '.revenue_amountOfMoney', '#formAdd_revenue_tb .revenue_amountOfMoney', '.revenue_amountOfMoney');
 
         // formAdd_expenses_tb
-        sumMultiple('#formAdd_expenses_tb', 'input', '.product_price_expenses', '#formAdd_expenses_tb .product_price_expenses');
+        //sumMultiple('#formAdd_expenses_tb', 'input', '.price_expenses', '#formAdd_expenses_tb .price_expenses');
 
     });
 
@@ -121,22 +134,22 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control" id="revenue_detail" name="revenue_detail[]" placeholder="รายละเอียดรายรับ" aria-label="รายละเอียดรายรับ">
+                            <input type="text" class="form-control" id="revenue_detail" name="revenue_detail[]" placeholder="รายละเอียดรายรับ" aria-label="รายละเอียดรายรับ" required>
                         </div>
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control revenue_total" id="revenue_total-${index}" name="revenue_total[]" placeholder="จำนวนเงินที่ได้" aria-label="จำนวนเงินที่ได้">
+                            <input type="text" class="form-control revenue_amountOfMoney" id="revenue_amountOfMoney-${index}" name="revenue_amountOfMoney[]" value="" placeholder="จำนวนเงินที่ได้" aria-label="จำนวนเงินที่ได้" onchange="calAmountOfMoneyAsVat(${index}, 'revenue_amountOfMoney', 'revenue_balance');" required> 
                         </div>
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control revenue_vat" id="revenue_vat-${index}" name="revenue_vat[]" value="10" placeholder="หักภาษี" aria-label="หักภาษี">
+                            <input type="text" class="form-control revenue_vat" id="revenue_vat-${index}" name="revenue_vat[]" placeholder="หักภาษี" aria-label="หักภาษี" style="background-color: #CDCDCD;" readonly>
                         </div>
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control revenue_balance" id="revenue_balance-${index}" name="revenue_balance[]" value="10" placeholder="คงเหลือ" aria-label="คงเหลือ" style="background-color: #CDCDCD;" readonly>
+                            <input type="text" class="form-control revenue_balance" id="revenue_balance-${index}" name="revenue_balance[]" value="" placeholder="คงเหลือ" aria-label="คงเหลือ" style="background-color: #CDCDCD;" readonly>
                         </div>
                     </td>
                     <td>
@@ -152,7 +165,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
         }
 
         $('#showCountClick').html(index + 1);
-        $('#displayRow').after(htmlRows);
+        $('#displayRow').after(htmlRows); //  
         countRow++;
     }
 
@@ -180,24 +193,29 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control" id="product_name_expenses" name="product_name_expenses[]" placeholder="ชื่อสินค้า" aria-label="ชื่อสินค้า">
+                            <input type="text" class="form-control" id="list_expenses" name="list_expenses[]" placeholder="รายการ" aria-label="รายการ">
                         </div>
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control product_price_expenses" id="product_price_expenses-${index}" name="product_price_expenses[]" placeholder="ราคาสินค้า" aria-label="ราคาสินค้า">
+                            <input type="text" class="form-control price_expenses" id="price_expenses-${index}" name="price_expenses[]" placeholder="ราคา" aria-label="ราคา">
                         </div>
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control product_qty_expenses" id="product_qty_expenses-${index}" name="product_qty_expenses[]" placeholder="จำนวนสินค้า" aria-label="จำนวนสินค้า">
+                            <input type="text" class="form-control qty_expenses" id="qty_expenses-${index}" name="qty_expenses[]" placeholder="จำนวน" aria-label="จำนวน">
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="col">
+                            <input type="text" class="form-control pay_expenses" id="pay_expenses-${index}" name="pay_expenses[]" placeholder="จ่าย" aria-label="จ่าย">
                         </div>
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control product_sum_expenses" id="product_sum_expenses-${index}" name="product_sum_expenses[]" placeholder="ราคารวม" aria-label="ราคารวม" style="background-color: #CDCDCD;" readonly>
+                            <input type="text" class="form-control change_expenses" id="change_expenses-${index}" name="change_expenses[]" placeholder="เงินทอน" aria-label="เงินทอน" style="background-color: #CDCDCD;" readonly>
                         </div>
-                    </td>
                     <td>
                         <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(${index}, ${countRow});">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
@@ -227,10 +245,40 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                     total += parseFloat(selfEl);
                 }
             });
-
-            $(elShowResult).val(total.toFixed(2));
-            console.log(total.toFixed(2));
+            //$(elShowResult).val(total.toFixed(2));
         });
+    }
+
+    function calAmountOfMoneyAsVat(index, elName, elNameShowResult) {
+        let concatEl = `#${elName}-${index}`;
+        let getTotal = $(concatEl).val();
+        let showBalance = `#${elNameShowResult}-${index}`;
+        checkVat(getTotal, index, 'revenue_vat');
+    }
+
+    function checkVat(vat, index, elShowResult) {
+        let sum = 0;
+        let result = 0;
+        let getVat = parseFloat(vat);
+        let vats = [0, 7, 10, 15, 20];
+        let showData = `#${elShowResult}-${index}`;
+
+        for (let i = 0; i < vats.length; i++) {
+            if (getVat <= vats[i]) { // input vat % 
+                showVat = vats[i];
+                sum = (getVat * showVat) / 100;
+                result = getVat - sum;
+                break;
+            }
+        }
+
+        showBalance(result, index, 'revenue_balance');
+        $(showData).val(`${showVat}%`); 
+    }
+
+    function showBalance(result, index, elShowResult) {
+        let showResult = `#${elShowResult}-${index}`;
+        $(showResult).val(parseFloat(result).toFixed(2));
     }
 
     function getUserProfile() {
@@ -239,8 +287,8 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
             dataType: "json",
             url: "../../../../../mvc_income_and_expenses/pug_framework/controllers/user/get_userProfile.php",
             data: {
-                username: '<?= $_SESSION['username']; ?>',
-                password: '<?= $_SESSION['password']; ?>'
+                username: '<?= base64_encode($_SESSION['username']); ?>',
+                password: '<?= base64_encode($_SESSION['password']); ?>'
             },
             success: function(response) {
                 response.forEach(function(i, v) {

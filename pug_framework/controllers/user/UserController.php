@@ -19,8 +19,8 @@ class UserController
     {
         $sql = "SELECT * FROM user_tb WHERE username =:username AND password =:password";
         $getUser = (new Query())->select($sql, [
-            'username' => $request->username,
-            'password' => $request->password
+            'username' => base64_decode($request->username),
+            'password' => base64_decode($request->password)
         ]);
 
         if (count($getUser) > 0) {

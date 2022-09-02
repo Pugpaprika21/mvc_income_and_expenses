@@ -13,10 +13,11 @@
                         </svg>
                     </td>
                     <td>วันที่จ่าย</td>
-                    <td>ชื่อสินค้า</td>
-                    <td>ราคาสินค้า</td>
-                    <td>จำนวนสินค้า</td>
-                    <td>ราคารวม</td>
+                    <td>รายการ</td>
+                    <td>ราคา</td>
+                    <td>จำนวน</td>
+                    <td>จ่าย</td>
+                    <td>เงินทอน</td>
                     <td>เพิ่ม</td>
                 </tr>
             </thead>
@@ -33,22 +34,28 @@
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control" id="product_name_expenses" name="product_name_expenses[]" placeholder="ชื่อสินค้า" aria-label="ชื่อสินค้า" style="background-color: #CDCDCD;" disabled>
+                            <input type="text" class="form-control" id="list_expenses" name="list_expenses[]" placeholder="รายการ" aria-label="รายการ" style="background-color: #CDCDCD;" disabled>
                         </div>
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control" id="product_price_expenses" name="product_price_expenses[]" placeholder="ราคาสินค้า" aria-label="ราคาสินค้า" style="background-color: #CDCDCD;" disabled>
+                            <input type="text" class="form-control" id="price_expenses" name="price_expenses[]" placeholder="ราคา" aria-label="ราคา" style="background-color: #CDCDCD;" disabled>
                         </div>
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control" id="product_qty_expenses" name="product_qty_expenses[]" placeholder="จำนวนสินค้า-ชิ้น" aria-label="จำนวนสินค้า" style="background-color: #CDCDCD;" disabled>
+                            <input type="text" class="form-control" id="qty_expenses" name="qty_expenses[]" placeholder="จำนวน " aria-label="จำนวน " style="background-color: #CDCDCD;" disabled>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="col">
+                            <input type="text" class="form-control" id="pay_expenses" name="pay_expenses[]" placeholder="จ่าย " aria-label="จ่าย " style="background-color: #CDCDCD;" disabled>
                         </div>
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control" id="product_sum_expenses" name="product_sum_expenses[]" placeholder="ราคารวม" aria-label="ราคารวม" style="background-color: #CDCDCD;" disabled>
+                            <input type="text" class="form-control" id="change_expenses" name="change_expenses[]" placeholder="เงินทอน" aria-label="เงินทอน" style="background-color: #CDCDCD;" disabled>
                         </div>
                     </td>
                     <td>

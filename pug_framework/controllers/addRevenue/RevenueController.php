@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pug_Framework\Controllers\AddRevenue;
 
 use Pug_Framework\Http\Http_Response\Response;

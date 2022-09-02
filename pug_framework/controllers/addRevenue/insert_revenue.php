@@ -10,10 +10,7 @@ require_once dirname(__DIR__) . '../../../../mvc_income_and_expenses/pug_framewo
 define('load', Autoloader::register());
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $user_id = $_SESSION['user_id']; 
-
-    (new RevenueController)->addToRevenueTable(Request::postMultiple()->toStdClass());
-    /* $request = Request::postMultiple()->toArray();
-    Response::render($request)->toArray(); */
+    (new RevenueController)
+        ->addToRevenueTable(Request::postMultiple()
+        ->toStdClass());
 }
