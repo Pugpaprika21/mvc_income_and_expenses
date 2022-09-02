@@ -21,12 +21,12 @@ class RevenueController
 
         foreach ($request->revenue_date as $requestKey => $requestVal) {
 
-            $sql = "INSERT INTO revenue_tb(revenue_date, revenue_detail, revenue_total, revenue_vat, revenue_balance, id) VALUES(:revenue_date, :revenue_detail, :revenue_total, :revenue_vat, :revenue_balance, :id)";
+            $sql = "INSERT INTO revenue_tb(revenue_date, revenue_detail, revenue_amountOfMoney, revenue_vat, revenue_balance, id) VALUES(:revenue_date, :revenue_detail, :revenue_amountOfMoney, :revenue_vat, :revenue_balance, :id)";
 
             $resultInsert = (new Query())->insert($sql, [
                 'revenue_date' => $request->revenue_date[$requestKey],
                 'revenue_detail' => $request->revenue_detail[$requestKey],
-                'revenue_total' => $request->revenue_total[$requestKey],
+                'revenue_amountOfMoney' => $request->revenue_amountOfMoney[$requestKey],
                 'revenue_vat' => $request->revenue_vat[$requestKey],
                 'revenue_balance' => $request->revenue_balance[$requestKey],
                 'id' => $_SESSION['user_id']

@@ -78,7 +78,10 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    console.log(response);
+                    if (response.status == 200) {
+                        swlAlert('สำเร็จ', 'เพิ่มข้อมูลรายรับสำเร็จ', 'success', '');
+                        $('#formAdd_revenue_tb')[0].reset();
+                    }
                 }
             });
 
@@ -134,7 +137,10 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control" id="revenue_detail" name="revenue_detail[]" placeholder="รายละเอียดรายรับ" aria-label="รายละเอียดรายรับ" required>
+                            <div class="form-floating">
+                                <textarea class="form-control" id="revenue_detail" name="revenue_detail[]" style="height: 20px" required></textarea>
+                                <label for="floatingTextarea2">รายละเอียดรายรับ</label>
+                            </div>
                         </div>
                     </td>
                     <td>
@@ -144,7 +150,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control revenue_vat" id="revenue_vat-${index}" name="revenue_vat[]" placeholder="หักภาษี" aria-label="หักภาษี" style="background-color: #CDCDCD;" readonly>
+                            <input type="text" class="form-control revenue_vat" id="revenue_vat-${index}" name="revenue_vat[]" placeholder="หักภาษี" aria-label="หักภาษี" onchange="inputVat(${index}, 'revenue_vat', 'revenue_amountOfMoney', 'revenue_balance');">
                         </div>
                     </td>
                     <td>
@@ -253,32 +259,37 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
         let concatEl = `#${elName}-${index}`;
         let getTotal = $(concatEl).val();
         let showBalance = `#${elNameShowResult}-${index}`;
-        checkVat(getTotal, index, 'revenue_vat');
     }
 
-    function checkVat(vat, index, elShowResult) {
-        let sum = 0;
+    function inputVat(index, elName, elCal, elShowData) {
         let result = 0;
-        let getVat = parseFloat(vat);
-        let vats = [0, 7, 10, 15, 20];
-        let showData = `#${elShowResult}-${index}`;
+        let elConcat = `#${elName}-${index}`;
+        let getVat = $(elConcat).val();
+        let elCals = `#${elCal}-${index}`;
+        let getAmount = $(elCals).val();
+        let elShow = `#${elShowData}-${index}`;
+        let sum = (parseFloat(getAmount) * parseFloat(getVat)) / 100;
 
-        for (let i = 0; i < vats.length; i++) {
-            if (getVat <= vats[i]) { // input vat % 
-                showVat = vats[i];
-                sum = (getVat * showVat) / 100;
-                result = getVat - sum;
-                break;
-            }
-        }
-
-        showBalance(result, index, 'revenue_balance');
-        $(showData).val(`${showVat}%`); 
+        result = parseFloat(getAmount) - sum;
+        $(elShow).val(result);
     }
 
     function showBalance(result, index, elShowResult) {
         let showResult = `#${elShowResult}-${index}`;
         $(showResult).val(parseFloat(result).toFixed(2));
+    }
+
+    function swlAlert(title = '', message = '', icon = '', url = '') {
+        Swal.fire(
+            title,
+            message,
+            icon
+        ).then(() => {
+            if (url !== '') {
+                window.location.reload();
+            }
+            //window.location.href = url;
+        });
     }
 
     function getUserProfile() {
