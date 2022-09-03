@@ -6,17 +6,13 @@ use Pug_Framework\Http\Http_Request\{Request, RequestMethod};
 use Pug_Framework\Include\Autoload\Autoloader;
 use Pug_Framework\Model\Query_Builder\Query;
 
-require_once dirname(__DIR__) . '../../../mvc_income_and_expenses/pug_framework/include/autoload/Autoload.php';
-
-define('load', Autoloader::register());
-
 /**
  * @param RequestMethod $requestMethod
  * @return void
  */
 
 #[RequestMethod]
-function getData(RequestMethod $requestMethod): void
+function get(RequestMethod $requestMethod): void
 {
     $joinTable = "
         SELECT * FROM user_tb
@@ -31,5 +27,11 @@ function getData(RequestMethod $requestMethod): void
     ]);
 }
 
-getData(RequestMethod::DELETE);
+get(RequestMethod::DELETE);
 
+
+
+
+require_once dirname(__DIR__) . '../../../mvc_income_and_expenses/pug_framework/include/autoload/Autoload.php';
+
+define('load', Autoloader::register());
