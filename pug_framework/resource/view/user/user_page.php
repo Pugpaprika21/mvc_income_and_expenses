@@ -194,33 +194,41 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                     <td></td>
                     <td>
                         <div class="col">
-                            <input type="date" class="form-control" id="payment_date_expenses" name="payment_date_expenses[]" value="<?= $dateInput; ?>" placeholder="วันที่จ่าย" aria-label="วันที่จ่าย">
+                            <input type="date" class="form-control" id="date_expenses" name="date_expenses[]" value="<?= $dateInput; ?>" placeholder="วันที่จ่าย" aria-label="วันที่จ่าย">
                         </div>
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control" id="list_expenses" name="list_expenses[]" placeholder="รายการ" aria-label="รายการ">
+                            <div class="form-floating">
+                                <textarea class="form-control" id="list_expenses" name="list_expenses[]" style="height: 20px" required></textarea>
+                                <label for="floatingTextarea2">รายการ</label>
+                            </div>
                         </div>
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control price_expenses" id="price_expenses-${index}" name="price_expenses[]" placeholder="ราคา" aria-label="ราคา">
+                            <input type="text" class="form-control price_expenses" id="price_expenses-${index}" name="price_expenses[]" value="" placeholder="ราคา" aria-label="ราคา" required>
                         </div>
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control qty_expenses" id="qty_expenses-${index}" name="qty_expenses[]" placeholder="จำนวน" aria-label="จำนวน">
-                        </div>
-                    </td>
-
-                    <td>
-                        <div class="col">
-                            <input type="text" class="form-control pay_expenses" id="pay_expenses-${index}" name="pay_expenses[]" placeholder="จ่าย" aria-label="จ่าย">
+                            <input type="text" class="form-control qty_expenses" id="qty_expenses-${index}" name="qty_expenses[]" value="" placeholder="จำนวน" aria-label="จำนวน" required>
                         </div>
                     </td>
                     <td>
                         <div class="col">
-                            <input type="text" class="form-control change_expenses" id="change_expenses-${index}" name="change_expenses[]" placeholder="เงินทอน" aria-label="เงินทอน" style="background-color: #CDCDCD;" readonly>
+                            <input type="text" class="form-control pay_expenses" id="pay_expenses-${index}" name="pay_expenses[]" value="" placeholder="จ่าย" aria-label="จ่าย" onchange="payment(${index}, 'pay_expenses', 'price_expenses', 'qty_expenses', 'change_expenses', 'sum_expenses')" required>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="col">
+                            <input type="text" class="form-control sum_expenses" id="sum_expenses-${index}" name="sum_expenses[]" value="" placeholder="รวม" aria-label="รวม" style="background-color: #CDCDCD;" readonly>
+                        </div>
+                    </td>
+                    
+                    <td>
+                        <div class="col">
+                            <input type="text" class="form-control change_expenses" id="change_expenses-${index}" name="change_expenses[]" value="" placeholder="เงินทอน" aria-label="เงินทอน" style="background-color: #CDCDCD;" readonly>
                         </div>
                     <td>
                         <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(${index}, ${countRow});">
@@ -277,6 +285,28 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
     function showBalance(result, index, elShowResult) {
         let showResult = `#${elShowResult}-${index}`;
         $(showResult).val(parseFloat(result).toFixed(2));
+    }
+
+    // formAdd_expenses_tb
+
+    function payment(index, elSelf, elName1, elName2, elName3, elName4) {
+        let sum = 0; 
+        let result = 0;
+        let getElSelf =  `#${elSelf}-${index}`;
+        let getElNamePrice = `#${elName1}-${index}`;
+        let getElNameQty = `#${elName2}-${index}`;
+        let getElNameChange = `#${elName3}-${index}`;
+        let getElExpenses = `#${elName4}-${index}`;
+        let getPay = $(getElSelf).val();
+        let getPrice = $(getElNamePrice).val();
+        let getQty = $(getElNameQty).val();
+        let getExpenses = $(getElExpenses).val();
+
+        sum = parseFloat(getPrice) * parseFloat(getQty);
+        result = sum - parseFloat(getPay);
+
+        $(getElExpenses).val(Math.abs(sum));
+        $(getElNameChange).val(Math.abs(result));
     }
 
     function swlAlert(title = '', message = '', icon = '', url = '') {

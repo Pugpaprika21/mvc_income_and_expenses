@@ -17,6 +17,7 @@
                     <td>ราคา</td>
                     <td>จำนวน</td>
                     <td>จ่าย</td>
+                    <td>รวม</td>
                     <td>เงินทอน</td>
                     <td>เพิ่ม</td>
                 </tr>
@@ -47,12 +48,18 @@
                             <input type="text" class="form-control" id="qty_expenses" name="qty_expenses[]" placeholder="จำนวน " aria-label="จำนวน " style="background-color: #CDCDCD;" disabled>
                         </div>
                     </td>
-
                     <td>
                         <div class="col">
                             <input type="text" class="form-control" id="pay_expenses" name="pay_expenses[]" placeholder="จ่าย " aria-label="จ่าย " style="background-color: #CDCDCD;" disabled>
                         </div>
                     </td>
+
+                    <td>
+                        <div class="col">
+                            <input type="text" class="form-control sum_expenses" id="sum_expenses" name="sum_expenses[]" value="" placeholder="รวม" aria-label="รวม" style="background-color: #CDCDCD;" disabled>
+                        </div>
+                    </td>
+                    
                     <td>
                         <div class="col">
                             <input type="text" class="form-control" id="change_expenses" name="change_expenses[]" placeholder="เงินทอน" aria-label="เงินทอน" style="background-color: #CDCDCD;" disabled>

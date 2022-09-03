@@ -16,7 +16,7 @@ $routes->route('GET', '/', function (Request $request): void {
 
 $routes->route('POST', '/register', function (Request $request): void {
 
-    $sql_register = 'INSERT INTO tb_user(username, password, token, create) VALUES(?, ?, ?, ?)';
+    $sql_register = "INSERT INTO tb_user(username, password, token, create) VALUES(?, ?, ?, ?)";
 
     $register = (new Query())->insert($sql_register, [
         'username' => $request->username,
