@@ -6,6 +6,10 @@ use Pug_Framework\Http\Http_Request\{Request, RequestMethod};
 use Pug_Framework\Include\Autoload\Autoloader;
 use Pug_Framework\Model\Query_Builder\Query;
 
+require_once dirname(__DIR__) . '../../../mvc_income_and_expenses/pug_framework/include/autoload/Autoload.php';
+
+define('load', Autoloader::register());
+
 /**
  * @param RequestMethod $requestMethod
  * @return void
@@ -27,8 +31,5 @@ function getData(RequestMethod $requestMethod): void
     ]);
 }
 
-require_once dirname(__DIR__) . '../../../mvc_income_and_expenses/pug_framework/include/autoload/Autoload.php';
-
-define('load', Autoloader::register());
-
 getData(RequestMethod::DELETE);
+
