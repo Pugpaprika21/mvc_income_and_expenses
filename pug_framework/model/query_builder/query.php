@@ -115,22 +115,18 @@ final class Query
      * @param string $fetch_option
      * @return array
      */
-    public function inner_join(string $str_sql, array $input_data = [], string $fetch_option = 'FETCH_OBJ'): array
+    public function innerJoin(string $str_sql, array $input_data = [], string $fetch_option = 'FETCH_OBJ'): array
     {
-        if (str_contains($str_sql, 'inner join') || str_contains($str_sql, 'INNER JOIN')) {
-            $stmt = $this->pdo_conn->prepare($str_sql);
-            $stmt->execute($input_data);
-            $data = $stmt->fetchAll(self::FETCH_TYPE[$fetch_option]);
-            $this->pdo_conn->beginTransaction();
+        $stmt = $this->pdo_conn->prepare($str_sql);
+        $stmt->execute($input_data);
+        $data = $stmt->fetchAll(self::FETCH_TYPE[$fetch_option]);
+        $this->pdo_conn->beginTransaction();
 
-            foreach ($data as $row) {
-                array_push($this->response, $row);
-            }
-
-            $this->pdo_close;
-            return $this->response;
+        foreach ($data as $row) {
+            array_push($this->response, $row);
         }
 
+        $this->pdo_close;
         return $this->response;
     }
 }
