@@ -1,6 +1,6 @@
 <?php
 
-use Pug_Framework\Controllers\DisplayData\ShowDataController;
+use Pug_Framework\Controllers\DisplayData\ShowDataRevenueController;
 use Pug_Framework\Include\Autoload\Autoloader;
 
 require_once dirname(__DIR__) . '../../../../mvc_income_and_expenses/pug_framework/include/autoload/Autoload.php';
@@ -8,5 +8,5 @@ require_once dirname(__DIR__) . '../../../../mvc_income_and_expenses/pug_framewo
 define('load', Autoloader::register());
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    (new ShowDataController())->getDataRevenueAsExpenses();
+    (new ShowDataRevenueController())->getDataRevenue();
 }

@@ -54,7 +54,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                         <nav class="nav justify-content-end">
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                 <button class="nav-link active" id="nav-showDataRevenue-tab" data-bs-toggle="tab" data-bs-target="#nav-showDataRevenue" type="button" role="tab" aria-controls="nav-showDataRevenue" aria-selected="true">ข้อมูลรายรับ</button>
-                                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+                                <button class="nav-link" id="nav-showExpensesData-tab" data-bs-toggle="tab" data-bs-target="#nav-showExpensesData" type="button" role="tab" aria-controls="nav-showExpensesData" aria-selected="false">ข้อมูลรายจ่าย</button>
                                 <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
                                 <button class="nav-link" id="nav-disabled-tab" data-bs-toggle="tab" data-bs-target="#nav-disabled" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false" disabled>Disabled</button>
                             </div>
@@ -64,7 +64,9 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                             <div class="tab-pane fade show active" id="nav-showDataRevenue" role="tabpanel" aria-labelledby="nav-showDataRevenue-tab" tabindex="0">
                                 <?php require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_layout_user/table_showDataRevenue.php'; ?>
                             </div>
-                            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">...</div>
+                            <div class="tab-pane fade" id="nav-showExpensesData" role="tabpanel" aria-labelledby="nav-showExpensesData-tab" tabindex="0">
+                                <?php require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_layout_user/table_showDataExpenses.php'; ?>
+                            </div>
                             <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">...</div>
                             <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">...</div>
                         </div>
@@ -132,7 +134,9 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
 
         // formAdd_expenses_tb
         //sumMultiple('#formAdd_expenses_tb', 'input', '.price_expenses', '#formAdd_expenses_tb .price_expenses');
-        getDataRevenueAsExpenses();
+
+        getRevenue();
+        getExpenses();
     });
 
     function dataTable(eName) {
@@ -343,20 +347,19 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
         });
     }
 
-    function getDataRevenueAsExpenses() {
+    function getRevenue() {
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: "../../../../../mvc_income_and_expenses/pug_framework/controllers/displayData/showData.php",
+            url: "../../../../../mvc_income_and_expenses/pug_framework/controllers/displayData/get_RevenueData.php",
             success: function(response) {
                 let html = ``;
                 let num = 0;
                 response.forEach(function(data, v) {
-                    //console.log(data);
                     html = `
                         <tr>
                             <td>${(num + 1)}</td>
-                            <td>${data.revenue_date}</td>
+                            <td>${dateThai(data.revenue_date)}</td>
                             <td>${data.revenue_detail}</td>
                             <td>${data.revenue_amountOfMoney}</td>
                             <td>${data.revenue_vat}</td>
@@ -369,6 +372,47 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                 });
             }
         });
+    }
+
+    function getExpenses() {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "../../../../../mvc_income_and_expenses/pug_framework/controllers/displayData/get_ExpensesData.php",
+            success: function(response) {
+                let html = ``;
+                let num = 0;
+                response.forEach(function(data, v) {
+                    html = `
+                        <tr>
+                            <td>${(num + 1)}</td>
+                            <td>${dateThai(data.date_expenses)}</td>
+                            <td>${data.list_expenses}</td>
+                            <td>${data.price_expenses}</td>
+                            <td>${data.qty_expenses}</td>
+                            <td>${data.pay_expenses}</td>
+                            <td>${data.sum_expenses}</td>
+                            <td>${data.change_expenses}</td>
+                        </tr>
+                    `;
+
+                    $('#showExpensesData').append(html);
+                    num++;
+                });
+            }
+        });
+    }
+
+    function dateThai(dateInput) {
+        const date = new Date(dateInput)
+        const result = date.toLocaleDateString('th-TH', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            weekday: 'long',
+        })
+
+        return result;
     }
 
     function getUserProfile() {
