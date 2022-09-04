@@ -84,7 +84,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
     var countRow = 1;
 
     $(document).ready(function() {
-        dataTable('#myTable');
+
         getUserProfile();
 
         $('#formAdd_revenue_tb').submit(function(e) {
@@ -135,13 +135,9 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
         // formAdd_expenses_tb
         //sumMultiple('#formAdd_expenses_tb', 'input', '.price_expenses', '#formAdd_expenses_tb .price_expenses');
 
-        getRevenue();
-        getExpenses();
+        //getRevenue();
+        //getExpenses();
     });
-
-    function dataTable(eName) {
-        return $(eName).DataTable();
-    }
 
     function addRowsRevenue() {
 
@@ -402,6 +398,34 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
             }
         });
     }
+
+    (function() {
+        let respAjax = null;
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "../../../../../mvc_income_and_expenses/pug_framework/controllers/displayData/get_RevenueData.php",
+            data: "data",
+            async: false,
+            global: false,
+            success: function(response) {
+                respAjax = response;
+            }
+        });
+
+        $('#showRevenueData_table').DataTable({
+            data: respAjax,
+            columns: [
+                {data: 'revenue_id'},
+                {data: 'revenue_date'},
+                {data: 'revenue_detail'},
+                {data: 'revenue_amountOfMoney'},
+                {data: 'revenue_vat'},
+                {data: 'revenue_balance'},
+            ]
+        });
+
+    })();
 
     function dateThai(dateInput) {
         const date = new Date(dateInput)

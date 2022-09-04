@@ -25,7 +25,7 @@ class HttpString
      * @param string $param_name
      * @return object
      */
-    public function showOne(string $param_name): object
+    public function getOne(string $param_name): object
     {
         if (is_array($this->arrParamsQuery) && is_string($param_name)) {
             parse_str($this->arrParamsQuery[$param_name], $params);

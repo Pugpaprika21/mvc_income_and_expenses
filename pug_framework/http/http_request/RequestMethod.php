@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pug_Framework\Http\Http_Request;
+
+use Pug_Framework\Helper_Function\Tool\HttpString;
 
 enum RequestMethod: string
 {
@@ -11,4 +15,22 @@ enum RequestMethod: string
     case PATCH   = 'PATCH';
     case POST    = 'POST';
     case PUT     = 'PUT';
+}
+/**
+ * @global Https
+ * @return object
+ */
+#[RequestMethod, HttpString]
+function getMethod(RequestMethod $request): object
+{
+    return (new HttpString())
+        ->getUrlComponents($request::GET->value)
+        ->getOne();
+}
+/**
+ * @return void
+ */
+function display(): void
+{
+
 }
