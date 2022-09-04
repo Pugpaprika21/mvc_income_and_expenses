@@ -19,6 +19,8 @@ final class Query
     private $pdo_close;
     private $response;
 
+    public $data = null;
+
     private const FETCH_TYPE = [
         'FETCH_ASSOC' => PDO::FETCH_ASSOC,
         'FETCH_BOTH' => PDO::FETCH_BOTH,
@@ -129,4 +131,5 @@ final class Query
         $this->pdo_close;
         return $this->response;
     }
+
 }

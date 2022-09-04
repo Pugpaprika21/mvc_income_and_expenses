@@ -50,7 +50,25 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                     </div>
                     <!-- ข้อมูลทั้งหมด -->
                     <div class="tab-pane fade" id="pills-disabled" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0">
-                        
+
+                        <nav class="nav justify-content-end">
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <button class="nav-link active" id="nav-showDataRevenue-tab" data-bs-toggle="tab" data-bs-target="#nav-showDataRevenue" type="button" role="tab" aria-controls="nav-showDataRevenue" aria-selected="true">ข้อมูลรายรับ</button>
+                                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+                                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+                                <button class="nav-link" id="nav-disabled-tab" data-bs-toggle="tab" data-bs-target="#nav-disabled" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false" disabled>Disabled</button>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <!-- ข้อมูลรายรับ -->
+                            <div class="tab-pane fade show active" id="nav-showDataRevenue" role="tabpanel" aria-labelledby="nav-showDataRevenue-tab" tabindex="0">
+                                <?php require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_layout_user/table_showDataRevenue.php'; ?>
+                            </div>
+                            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">...</div>
+                            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">...</div>
+                            <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">...</div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -114,7 +132,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
 
         // formAdd_expenses_tb
         //sumMultiple('#formAdd_expenses_tb', 'input', '.price_expenses', '#formAdd_expenses_tb .price_expenses');
-
+        getDataRevenueAsExpenses();
     });
 
     function dataTable(eName) {
@@ -293,9 +311,9 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
     // formAdd_expenses_tb
 
     function payment(index, elSelf, elName1, elName2, elName3, elName4) {
-        let sum = 0; 
+        let sum = 0;
         let result = 0;
-        let getElSelf =  `#${elSelf}-${index}`;
+        let getElSelf = `#${elSelf}-${index}`;
         let getElNamePrice = `#${elName1}-${index}`;
         let getElNameQty = `#${elName2}-${index}`;
         let getElNameChange = `#${elName3}-${index}`;
@@ -325,6 +343,34 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
         });
     }
 
+    function getDataRevenueAsExpenses() {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "../../../../../mvc_income_and_expenses/pug_framework/controllers/displayData/showData.php",
+            success: function(response) {
+                let html = ``;
+                let num = 0;
+                response.forEach(function(data, v) {
+                    //console.log(data);
+                    html = `
+                        <tr>
+                            <td>${(num + 1)}</td>
+                            <td>${data.revenue_date}</td>
+                            <td>${data.revenue_detail}</td>
+                            <td>${data.revenue_amountOfMoney}</td>
+                            <td>${data.revenue_vat}</td>
+                            <td>${data.revenue_balance}</td>
+                        </tr>
+                    `;
+
+                    $('#showRevenueData').append(html);
+                    num++;
+                });
+            }
+        });
+    }
+
     function getUserProfile() {
         $.ajax({
             type: "GET",
@@ -336,7 +382,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
             },
             success: function(response) {
                 response.forEach(function(i, v) {
-                    console.log(i);
+                    //console.log(i);
                 });
             }
         });
