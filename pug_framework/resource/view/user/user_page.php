@@ -39,6 +39,15 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                     <!-- หน้าเเรก -->
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
 
+                        <p class="text-start">ข้อมูลรายจ่าย ประจำวันที่ <?= $dayMonthYearCutResult; ?> </p>
+                        <div class="d-flex justify-content-center">
+                            <div class="card">
+                                <div class="card-body">
+                                    <img src="../../../../../mvc_income_and_expenses/pug_framework/public/image/maxresdefault.jpg" class="rounded mx-auto d-block">
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                     <!-- ข้อมูลรายรับ -->
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
