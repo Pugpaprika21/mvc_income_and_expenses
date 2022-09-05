@@ -1,6 +1,6 @@
 <div class="row">
     <p class="text-start">ข้อมูลรายจ่าย ประจำวันที่ <?= $dayMonthYearCutResult; ?> </p>
-    <table class="table table-bordered text-center">
+    <table class="table table-bordered text-center display" style="width:100%">
         <thead>
             <tr>
                 <td>#</td>

@@ -17,7 +17,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
 
 ?>
 
-<div class="container">
+<div class="container" style="padding-bottom: 40px;">
     <div class="card shadow-sm rounded" id="card-main">
         <div class="card-body">
             <div class="nav-tab-main">
@@ -129,14 +129,12 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
             });
         });
 
+
         // formAdd_revenue_tb
         //sumMultiple('#formAdd_revenue_tb', 'input', '.revenue_amountOfMoney', '#formAdd_revenue_tb .revenue_amountOfMoney', '.revenue_amountOfMoney');
 
         // formAdd_expenses_tb
         //sumMultiple('#formAdd_expenses_tb', 'input', '.price_expenses', '#formAdd_expenses_tb .price_expenses');
-
-        //getRevenue();
-        //getExpenses();
     });
 
     function addRowsRevenue() {
@@ -343,33 +341,6 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
         });
     }
 
-    function getRevenue() {
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "../../../../../mvc_income_and_expenses/pug_framework/controllers/displayData/get_RevenueData.php",
-            success: function(response) {
-                let html = ``;
-                let num = 0;
-                response.forEach(function(data, v) {
-                    html = `
-                        <tr>
-                            <td>${(num + 1)}</td>
-                            <td>${dateThai(data.revenue_date)}</td>
-                            <td>${data.revenue_detail}</td>
-                            <td>${data.revenue_amountOfMoney}</td>
-                            <td>${data.revenue_vat}</td>
-                            <td>${data.revenue_balance}</td>
-                        </tr>
-                    `;
-
-                    $('#showRevenueData').append(html);
-                    num++;
-                });
-            }
-        });
-    }
-
     function getExpenses() {
         $.ajax({
             type: "GET",
@@ -382,7 +353,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                     html = `
                         <tr>
                             <td>${(num + 1)}</td>
-                            <td>${dateThai(data.date_expenses)}</td>
+                            <td>${data.date_expenses}</td>
                             <td>${data.list_expenses}</td>
                             <td>${data.price_expenses}</td>
                             <td>${data.qty_expenses}</td>
@@ -409,20 +380,37 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
             async: false,
             global: false,
             success: function(response) {
-                respAjax = response;
-            }
-        });
+                let dt = $('#showRevenueData_table').DataTable({
+                    data: response,
+                    columns: [
+                        {data: 'revenue_id'},
+                        {data: 'revenue_date'},
+                        {data: 'revenue_detail'},
+                        {data: 'revenue_amountOfMoney'},
+                        {data: 'revenue_vat'},
+                        {data: 'revenue_balance'},
+                    ],
+                    columnDefs: [{
+                        searchable: false,
+                        orderable: false,
+                        targets: 0,
+                    }],
+                    order: [
+                        [1, 'asc']
+                    ],
+                });
 
-        $('#showRevenueData_table').DataTable({
-            data: respAjax,
-            columns: [
-                {data: 'revenue_id'},
-                {data: 'revenue_date'},
-                {data: 'revenue_detail'},
-                {data: 'revenue_amountOfMoney'},
-                {data: 'revenue_vat'},
-                {data: 'revenue_balance'},
-            ]
+                dt.on('order.dt search.dt', function() {
+                    let i = 1;
+
+                    dt.cells(null, 0, {
+                        search: 'applied',
+                        order: 'applied'
+                    }).every(function(cell) {
+                        this.data(i++);
+                    });
+                }).draw();
+            }
         });
 
     })();

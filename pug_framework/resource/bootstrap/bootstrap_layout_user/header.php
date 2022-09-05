@@ -19,6 +19,17 @@
         body{
 			font-family: 'Mitr', sans-serif;
 		}
+
+        /* dataTable showRevenueData_table */
+
+        .dataTables_length, .dataTables_filter {
+            margin-bottom: 20px;
+        }
+
+        .dataTables_info, #showRevenueData_table_paginate {
+            margin-top: 20px;
+        }
+
     </style>
 
 </head>

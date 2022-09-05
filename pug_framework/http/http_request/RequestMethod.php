@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pug_Framework\Http\Http_Request;
 
-use Pug_Framework\Helper_Function\Tool\HttpString;
+use Pug_Framework\Helper_Function\Tool\{HttpString, URLcurrent};
 
 enum RequestMethod: string
 {
@@ -26,11 +26,4 @@ function getMethod(RequestMethod $request): object
     return (new HttpString())
         ->getUrlComponents($request::GET->value)
         ->getOne();
-}
-/**
- * @return void
- */
-function display(): void
-{
-
 }
