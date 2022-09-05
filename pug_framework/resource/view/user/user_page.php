@@ -103,7 +103,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                 success: function(response) {
                     if (response.status == 200) {
                         swlAlert('สำเร็จ', 'เพิ่มข้อมูลรายรับสำเร็จ', 'success', '');
-                        $('#formAdd_revenue_tb')[0].reset();
+                        $('#formAdd_revenue_tb')[0].reset(); 
                     }
                 }
             });
@@ -128,13 +128,6 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                 }
             });
         });
-
-
-        // formAdd_revenue_tb
-        //sumMultiple('#formAdd_revenue_tb', 'input', '.revenue_amountOfMoney', '#formAdd_revenue_tb .revenue_amountOfMoney', '.revenue_amountOfMoney');
-
-        // formAdd_expenses_tb
-        //sumMultiple('#formAdd_expenses_tb', 'input', '.price_expenses', '#formAdd_expenses_tb .price_expenses');
     });
 
     function addRowsRevenue() {
@@ -145,7 +138,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
         for (let i = 0; i < countRow; i++) {
 
             index = (i + 1);
-            // balance
+
             htmlRows = `
                 <tr id="trNumRows-${index}">
                     <td></td>
@@ -334,49 +327,16 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
             message,
             icon
         ).then(() => {
-            if (url !== '') {
-                window.location.reload();
-            }
-            //window.location.href = url;
+            window.location.reload();
         });
     }
 
-    function getExpenses() {
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "../../../../../mvc_income_and_expenses/pug_framework/controllers/displayData/get_ExpensesData.php",
-            success: function(response) {
-                let html = ``;
-                let num = 0;
-                response.forEach(function(data, v) {
-                    html = `
-                        <tr>
-                            <td>${(num + 1)}</td>
-                            <td>${data.date_expenses}</td>
-                            <td>${data.list_expenses}</td>
-                            <td>${data.price_expenses}</td>
-                            <td>${data.qty_expenses}</td>
-                            <td>${data.pay_expenses}</td>
-                            <td>${data.sum_expenses}</td>
-                            <td>${data.change_expenses}</td>
-                        </tr>
-                    `;
-
-                    $('#showExpensesData').append(html);
-                    num++;
-                });
-            }
-        });
-    }
-
-    (function() {
+    (function () {
         let respAjax = null;
         $.ajax({
             type: "GET",
             dataType: "json",
             url: "../../../../../mvc_income_and_expenses/pug_framework/controllers/displayData/get_RevenueData.php",
-            data: "data",
             async: false,
             global: false,
             success: function(response) {
@@ -412,20 +372,53 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                 }).draw();
             }
         });
-
     })();
 
-    function dateThai(dateInput) {
-        const date = new Date(dateInput)
-        const result = date.toLocaleDateString('th-TH', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            weekday: 'long',
-        })
+    (function() {
+        let respAjax = null;
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "../../../../../mvc_income_and_expenses/pug_framework/controllers/displayData/get_ExpensesData.php",
+            async: false,
+            global: false,
+            success: function(response) {
+                let dt = $('#showExpensesData_table').DataTable({
+                    data: response,
+                    columns: [
+                        {data: 'expenses_id'},
+                        {data: 'date_expenses'},
+                        {data: 'list_expenses'},
+                        {data: 'price_expenses'},
+                        {data: 'qty_expenses'},
+                        {data: 'pay_expenses'},
+                        {data: 'sum_expenses'},
+                        {data: 'change_expenses'},
+                    ],
+                    columnDefs: [{
+                        searchable: false,
+                        orderable: false,
+                        targets: 0,
+                    }],
+                    order: [
+                        [1, 'asc']
+                    ],
+                });
 
-        return result;
-    }
+                dt.on('order.dt search.dt', function() {
+                    let i = 1;
+
+                    dt.cells(null, 0, {
+                        search: 'applied',
+                        order: 'applied'
+                    }).every(function(cell) {
+                        this.data(i++);
+                    });
+                }).draw();
+            }
+        });
+
+    })();
 
     function getUserProfile() {
         $.ajax({

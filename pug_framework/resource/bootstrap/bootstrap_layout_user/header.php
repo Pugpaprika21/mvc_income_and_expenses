@@ -20,13 +20,13 @@
 			font-family: 'Mitr', sans-serif;
 		}
 
-        /* dataTable showRevenueData_table */
+        /* dataTable showRevenueData_table and showExpensesData_table */
 
         .dataTables_length, .dataTables_filter {
             margin-bottom: 20px;
         }
 
-        .dataTables_info, #showRevenueData_table_paginate {
+        .dataTables_info, .paging_simple_numbers {
             margin-top: 20px;
         }
 

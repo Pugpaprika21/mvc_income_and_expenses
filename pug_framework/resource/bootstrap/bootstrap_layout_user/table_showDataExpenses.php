@@ -1,7 +1,7 @@
 <div class="row">
     <p class="text-start">ข้อมูลรายจ่าย ประจำวันที่ <?= $dayMonthYearCutResult; ?> </p>
-    <table class="table table-bordered text-center display" style="width:100%">
-        <thead>
+    <table class="table table-bordered text-center display" id="showExpensesData_table" style="width:100%">
+        <thead style="background-color: #1F75F1; color: #FFFFFF;">
             <tr>
                 <td>#</td>
                 <td>วันที่จ่าย</td>
