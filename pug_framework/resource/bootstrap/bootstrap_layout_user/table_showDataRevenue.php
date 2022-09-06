@@ -9,10 +9,12 @@
                 <td>จำนวนเงินที่ได้</td>
                 <td>หักภาษี</td>
                 <td>คงเหลือ</td>
+
+                <td>จัดการ</td>
             </tr>
         </thead>
         <tbody id="showRevenueData">
-            
+                
         </tbody>
     </table>
 </div>

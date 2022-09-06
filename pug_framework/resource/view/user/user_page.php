@@ -358,11 +358,31 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                         {data: 'revenue_amountOfMoney'},
                         {data: 'revenue_vat'},
                         {data: 'revenue_balance'},
+                        {data: null},
                     ],
-                    columnDefs: [{
-                        searchable: false,
+                    columnDefs: [
+                    {
+                        searchable: true,
                         orderable: false,
                         targets: 0,
+                    }, 
+                    {
+                        targets: 6,
+                        searchable: false,
+                        orderable: false,
+                        render: function(data, type, row) {
+                            return `
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdown-action" data-bs-toggle="dropdown" aria-expanded="false">
+                                        action
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdown-action">
+                                        <li><button class="dropdown-item" type="button" onclick="getRevenuesID(${data.revenue_id}, 'edit')">เเก้ไข</button></li>
+                                        <li><button class="dropdown-item" type="button" onclick="getRevenuesID(${data.revenue_id}, 'delete')">ลบ</button></li>
+                                    </ul>
+                                </div>
+                            `;
+                        }
                     }],
                     order: [
                         [1, 'asc']
@@ -382,6 +402,19 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
             }
         });
     })();
+
+    function getRevenuesID(revenue_id, action = '') {  
+        let pathApi = '';
+        let toPage = '';
+
+        if (action == 'edit') { 
+            pathApi = '../../../../../mvc_income_and_expenses/pug_framework/controllers/addRevenue/edit_revenue.php'; 
+            ajaxSandData({revenue_id: revenue_id}, 'GET', pathApi, action);
+        } else if (action == 'delete') {
+            pathApi = '../../../../../mvc_income_and_expenses/pug_framework/controllers/addRevenue/delete_revenue.php'; 
+            ajaxSandData({revenue_id: revenue_id}, 'GET', pathApi, action);
+        }
+    }
 
     (function() {
         let respAjax = null;
@@ -428,6 +461,45 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
         });
 
     })();
+
+    function ajaxSandData(data = {}, type = '', url = '', action = '') {
+        if (action == 'edit') {
+            $.ajax({
+                type: type,
+                dataType: "json",
+                url: url,
+                data: data,
+                success: function (response) {
+                    window.location.href = response.path_url;
+                }
+            });
+
+        } else if (action == 'delete') {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: type,
+                        dataType: "json",
+                        url: url,
+                        data: data,
+                        success: function (response) {
+                            if (response.status == 200) {
+                                $('#showRevenueData_table').DataTable().draw();
+                            }
+                        }
+                    });
+                }
+            })
+        }
+    }
 
     function getUserProfile() {
         $.ajax({

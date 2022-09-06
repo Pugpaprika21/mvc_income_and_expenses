@@ -50,9 +50,9 @@ final class CreateUrl
 
             if (count($query_string) !== 0) {
                 $http_query = http_build_query($query_string);
-                echo json_encode(['path_url' => $js_decode->path_url . '?' . $http_query]);
+                echo json_encode(['path_url' => $js_decode->path_url . '?' . $http_query, 'status' => 200]);
             } else {
-                echo json_encode(['path_url' => $js_decode->path_url]);
+                echo json_encode(['path_url' => $js_decode->path_url, 'status' => 500]);
             }
         } else {
             echo self::$json_result_path;

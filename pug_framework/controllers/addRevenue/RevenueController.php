@@ -37,4 +37,49 @@ class RevenueController
             Response::success();
         }
     }
+    /**
+     * edit revenue data
+     *
+     * @param object $request
+     * @return void
+     */
+    public function editRevenue(object $request): void
+    {
+        $revenue_id = $request->revenue_id;
+        $pathEditRevenue = "../../../../pug_framework/resource/view/user/user_edit_revenue.php?revenue_id={$revenue_id}";
+
+        if ($revenue_id !== null) {
+            Response::render(['path_url' => $pathEditRevenue])->jsonString();
+        }
+    }
+    /**
+     * get data Revenue
+     *
+     * @param object $request
+     * @return void
+     */
+    public function getDataEditRevenue(object $request): void
+    {
+        $sql = "SELECT * FROM revenue_tb WHERE revenue_id =:revenue_id";
+        $result = (new Query())->select($sql, ['revenue_id' => $request->revenue_id]);
+
+        if (count($result) > 0) {
+            Response::render($result)->jsonString();
+        }
+    }
+    /**
+     * @param object $request
+     * @return void
+     */
+    public function deleteRevenueBuId(object $request): void
+    {
+        $sql = "DELETE FROM revenue_tb WHERE revenue_id =:revenue_id";
+        $result = (new Query())->delete($sql, [
+            'revenue_id' => $request->revenue_id
+        ]);
+
+        if ($result) {
+            Response::success();
+        }
+    }
 }
