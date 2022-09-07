@@ -25,7 +25,7 @@ require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_fram
                 </svg> รายรับ-รายจ่าย
             </div>
             <div class="card-body">
-                <?php require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_layout_user/table_editRevenue.php'; ?>
+                <?php require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_layout_user/table_editExpenses.php'; ?>
             </div>
         </div>
     </div>
@@ -35,63 +35,64 @@ require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_fram
 <script src="../../../../../mvc_income_and_expenses/pug_framework/resource/js/publicJS/urlSearchParams.js"></script>
 
 <script>
-    $(document).ready(function() {
-        $('#editRevenue').submit(function(e) {
+    $(document).ready(function () {
+        $('#editExpenses').submit(function (e) { 
             e.preventDefault();
-
             const Fd = new FormData($(this)[0]);
-            Fd.append('revenue_id', $('#revenue_id').val());
+            Fd.append('expenses_id', $('#expenses_id').val());
+            
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: '../../../../../mvc_income_and_expenses/pug_framework/controllers/addRevenue/edit_revenueTable.php',
+                url: "url",
                 data: Fd,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    if (response.status == 200) {
-                        window.location.reload();
-                    }
+                success: function (response) {
+                    console.log(response);
                 }
             });
         });
     });
 
-    (function() {
-        let urlParam = urlSearchParams('revenues_id');
+    (function (){
+        let urlParam = urlSearchParams('expenses_id');
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: '../../../../../mvc_income_and_expenses/pug_framework/controllers/addRevenue/get_edit_revenue.php',
-            data: {
-                revenue_id: urlParam
-            },
-            success: function(response) {
-                let html = ``;
-                let num = 0;
-                let index = 0;
-                response.forEach(function(data, v) {
-                    $('#revenue_date').val(data.revenue_date);
-                    $('#revenue_detail').val(data.revenue_detail);
-                    $('#revenue_amountOfMoney').val(data.revenue_amountOfMoney);
-                    $('#revenue_vat').val(data.revenue_vat);
-                    $('#revenue_balance').val(data.revenue_balance);
-                    $('#revenue_id').val(data.revenue_id);
+            url: '../../../../../mvc_income_and_expenses/pug_framework/controllers/addExpenses/get_edit_expenses.php',
+            data: {expenses_id: urlParam},
+            success: function (response) {
+                response.forEach(function (data) {
+                    $('#date_expenses').val(data.date_expenses);
+                    $('#list_expenses').val(data.list_expenses);
+                    $('#price_expenses').val(data.price_expenses);
+                    $('#date_expenses').val(data.date_expenses);
+                    $('#qty_expenses').val(data.qty_expenses);
+                    $('#pay_expenses').val(data.pay_expenses);
+                    $('#sum_expenses').val(data.sum_expenses);
+                    $('#change_expenses').val(data.change_expenses);
                 });
             }
         });
     })();
 
-    function calAmountOfMoneyAsVat(_this) {
-        let eVal = _this.value;
-        $('#revenue_balance').val(eVal);
+    function payment(_this, elSelf, elName1, elName2, elName3, elName4) {
+        let sum = 0;
+        let result = 0;
+        let getElSelf = `#${elSelf}-${_this.id}`;
+        let getElNamePrice = `#${elName1}-${_this.id}`;
+        let getElNameQty = `#${elName2}-${_this.id}`;
+        let getElNameChange = `#${elName3}-${_this.id}`;
+        let getElExpenses = `#${elName4}-${_this.id}`;
+        let getPay = $(getElSelf).val();
+        let getPrice = $(getElNamePrice).val();
+        let getQty = $(getElNameQty).val();
+        let getExpenses = $(getElExpenses).val();
+
+        sum = parseFloat(getPrice) * parseFloat(getQty);
+        result = sum - parseFloat(getPay);
+
+        $(getElExpenses).val(Math.abs(sum));
+        $(getElNameChange).val(Math.abs(result));
     }
 
-    function inputVat(_this) {
-        let getRevenueAmountOfMoney = $('#revenue_amountOfMoney').val();
-        let getVat = _this.value;
-        let sum = (parseFloat(getRevenueAmountOfMoney) * parseFloat(getVat)) / 100;
-        result = parseFloat(getRevenueAmountOfMoney) - sum;
-        $('#revenue_balance').val(result);
-    }
 </script>

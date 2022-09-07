@@ -314,20 +314,6 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
 
     // calculate 
 
-    function sumMultiple(tableName = '', elTaget = '', className = '', elCount = '', elShowResult = '') {
-        $(tableName).on(elTaget, className, function(e) {
-            e.preventDefault();
-            let total = 0;
-            $(elCount).each(function() {
-                let selfEl = $(this).val();
-                if ($.isNumeric(selfEl)) {
-                    total += parseFloat(selfEl);
-                }
-            });
-            //$(elShowResult).val(total.toFixed(2));
-        });
-    }
-
     function calAmountOfMoneyAsVat(index, elName, elNameShowResult) {
         let concatEl = `#${elName}-${index}`;
         let getTotal = $(concatEl).val();
@@ -433,8 +419,8 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                                         action
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdown-action">
-                                        <li><button class="dropdown-item" type="button" onclick="getRevenuesID(${data.revenue_id}, 'edit')">เเก้ไข</button></li>
-                                        <li><button class="dropdown-item" type="button" onclick="getRevenuesID(${data.revenue_id}, 'delete')">ลบ</button></li>
+                                        <li><button class="dropdown-item" type="button" onclick="editRevenuesByID(${data.revenue_id})">เเก้ไข</button></li>
+                                        <li><button class="dropdown-item" type="button" onclick="deleteRevenuesByID(${data.revenue_id})">ลบ</button></li>
                                     </ul>
                                 </div>
                             `;
@@ -460,21 +446,37 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
         });
     })();
 
-    function getRevenuesID(revenue_id, action = '') {
-        let pathApi = '';
-        let toPage = '';
+    function editRevenuesByID(id) {
+        let url = `../../../../../mvc_income_and_expenses/pug_framework/resource/view/user/user_edit_revenue.php?revenues_id=${id}`;
+        window.location.href = url;
+    }
 
-        if (action == 'edit') {
-            pathApi = '../../../../../mvc_income_and_expenses/pug_framework/controllers/addRevenue/edit_revenue.php';
-            ajaxSandData(revenue_id, {
-                revenue_id: revenue_id
-            }, 'GET', pathApi, action);
-        } else if (action == 'delete') {
-            pathApi = '../../../../../mvc_income_and_expenses/pug_framework/controllers/addRevenue/delete_revenue.php';
-            ajaxSandData(revenue_id, {
-                revenue_id: revenue_id
-            }, 'GET', pathApi, action);
-        }
+    function deleteRevenuesByID(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "คุณต้องการลบข้อมูลรายจ่ายนี้หรือไม่",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: '../../../../../mvc_income_and_expenses/pug_framework/controllers/addRevenue/delete_revenue.php',
+                    data: {
+                        expenses_id: id
+                    },
+                    success: function(response) {
+                        if (response.status == 200) {
+                            window.location.reload();
+                        }
+                    }
+                });
+            }
+        })
     }
 
     (function() {
@@ -512,12 +514,34 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                         {
                             data: 'change_expenses'
                         },
+                        {
+                            data: null
+                        }
                     ],
                     columnDefs: [{
-                        searchable: false,
-                        orderable: false,
-                        targets: 0,
-                    }],
+                            searchable: true,
+                            orderable: false,
+                            targets: 0,
+                        },
+                        {
+                            targets: 8,
+                            searchable: false,
+                            orderable: false,
+                            render: function(data, type, row) {
+                                return `
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdown-action" data-bs-toggle="dropdown" aria-expanded="false">
+                                        action
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdown-action">
+                                        <li><button class="dropdown-item" type="button" onclick="editExpensesByID(${data.expenses_id})">เเก้ไข</button></li>
+                                        <li><button class="dropdown-item" type="button" onclick="deleteExpensesByID(${data.expenses_id})">ลบ</button></li>
+                                    </ul>
+                                </div>
+                            `;
+                            }
+                        }
+                    ],
                     order: [
                         [1, 'asc']
                     ],
@@ -540,43 +564,37 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
 
     })();
 
-    function ajaxSandData(revenue_id, data = {}, type = '', url = '', action = '') {
-        if (action == 'edit') {
-            $.ajax({
-                type: type,
-                dataType: "json",
-                url: url,
-                data: data,
-                success: function(response) {
-                    window.location.href = response.path_url;
-                }
-            });
+    function editExpensesByID(id) {
+        let url = `../../../../../mvc_income_and_expenses/pug_framework/resource/view/user/user_edit_expenses.php?expenses_id=${id}`;
+        window.location.href = url;
+    }
 
-        } else if (action == 'delete') {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "คุณต้องการลบข้อมูลรายรับนี้หรือไม่",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: type,
-                        dataType: "json",
-                        url: url,
-                        data: data,
-                        success: function(response) {
-                            if (response.status == 200) {
-                                window.location.reload();
-                            }
+    function deleteExpensesByID(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "คุณต้องการลบข้อมูลรายจ่ายนี้หรือไม่",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: "",
+                    data: {
+                        expenses_id: id
+                    },
+                    success: function(response) {
+                        if (response.status == 200) {
+                            window.location.reload();
                         }
-                    });
-                }
-            })
-        }
+                    }
+                });
+            }
+        })
     }
 
     (function() {

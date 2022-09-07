@@ -5,7 +5,7 @@ namespace Pug_Framework\Controllers\AddExpenses;
 use Pug_Framework\Http\Http_Response\Response;
 use Pug_Framework\Model\Query_Builder\Query;
 
-require_once dirname(__DIR__). '../../../../mvc_income_and_expenses/pug_framework/include/autoload/Autoload.php';
+require_once dirname(__DIR__) . '../../../../mvc_income_and_expenses/pug_framework/include/autoload/Autoload.php';
 
 class ExpensesController
 {
@@ -17,8 +17,8 @@ class ExpensesController
     {
         $resultInsert = null;
 
-        foreach ($request->date_expenses as $requestKey => $requestVal) { 
-   
+        foreach ($request->date_expenses as $requestKey => $requestVal) {
+
             $sql = "INSERT INTO expenses_tb(date_expenses, list_expenses, price_expenses, qty_expenses, pay_expenses, sum_expenses, change_expenses, id) VALUES(:date_expenses, :list_expenses, :price_expenses, :qty_expenses, :pay_expenses, :sum_expenses, :change_expenses, :id)";
             $resultInsert = (new Query())->insert($sql, [
                 'date_expenses' => $request->date_expenses[$requestKey],
@@ -34,6 +34,22 @@ class ExpensesController
 
         if ($resultInsert) {
             Response::success();
+        }
+    }
+    /**
+     * show data edit Expenses
+     * @param object $request
+     * @return void
+     */
+    public function getExpenses(object $request): void
+    {
+        $sql = "SELECT * FROM expenses_tb WHERE expenses_id =:expenses_id ";
+        $result = (new Query())->select($sql, [
+            'expenses_id' => $request->expenses_id
+        ]);
+
+        if (count($result) > 0) {
+            Response::render($result)->jsonString();
         }
     }
 }

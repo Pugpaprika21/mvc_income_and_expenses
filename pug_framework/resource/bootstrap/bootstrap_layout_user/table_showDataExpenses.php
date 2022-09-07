@@ -11,6 +11,7 @@
                 <td>จ่าย</td>
                 <td>รวม</td>
                 <td>เงินทอน</td>
+                <td>จัดการ</td>
             </tr>
         </thead>
         <tbody id="showExpensesData">
