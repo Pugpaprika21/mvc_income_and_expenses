@@ -35,33 +35,37 @@ require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_fram
 <script src="../../../../../mvc_income_and_expenses/pug_framework/resource/js/publicJS/urlSearchParams.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $('#editExpenses').submit(function (e) { 
+    $(document).ready(function() {
+        $('#editExpenses').submit(function(e) {
             e.preventDefault();
+
             const Fd = new FormData($(this)[0]);
             Fd.append('expenses_id', $('#expenses_id').val());
-            
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: "url",
+                url: '../../../../../mvc_income_and_expenses/pug_framework/controllers/addExpenses/edit_expensesTable.php',
                 data: Fd,
-                success: function (response) {
+                processData: false,
+                contentType: false,
+                success: function(response) {
                     console.log(response);
                 }
             });
         });
     });
 
-    (function (){
+    (function() {
         let urlParam = urlSearchParams('expenses_id');
         $.ajax({
             type: "GET",
             dataType: "json",
             url: '../../../../../mvc_income_and_expenses/pug_framework/controllers/addExpenses/get_edit_expenses.php',
-            data: {expenses_id: urlParam},
-            success: function (response) {
-                response.forEach(function (data) {
+            data: {
+                expenses_id: urlParam
+            },
+            success: function(response) {
+                response.forEach(function(data) {
                     $('#date_expenses').val(data.date_expenses);
                     $('#list_expenses').val(data.list_expenses);
                     $('#price_expenses').val(data.price_expenses);
@@ -75,24 +79,14 @@ require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_fram
         });
     })();
 
-    function payment(_this, elSelf, elName1, elName2, elName3, elName4) {
+    function payment() {
         let sum = 0;
         let result = 0;
-        let getElSelf = `#${elSelf}-${_this.id}`;
-        let getElNamePrice = `#${elName1}-${_this.id}`;
-        let getElNameQty = `#${elName2}-${_this.id}`;
-        let getElNameChange = `#${elName3}-${_this.id}`;
-        let getElExpenses = `#${elName4}-${_this.id}`;
-        let getPay = $(getElSelf).val();
-        let getPrice = $(getElNamePrice).val();
-        let getQty = $(getElNameQty).val();
-        let getExpenses = $(getElExpenses).val();
-
+        let getPrice = $('#price_expenses').val();
+        let getQty = $('#qty_expenses').val();
         sum = parseFloat(getPrice) * parseFloat(getQty);
-        result = sum - parseFloat(getPay);
-
-        $(getElExpenses).val(Math.abs(sum));
-        $(getElNameChange).val(Math.abs(result));
+        result = sum - parseFloat(getPrice);
+        $('#sum_expenses').val(Math.abs(sum));
+        $('#change_expenses').val(Math.abs(result));
     }
-
 </script>

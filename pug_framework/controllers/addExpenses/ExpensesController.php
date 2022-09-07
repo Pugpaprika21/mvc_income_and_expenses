@@ -52,4 +52,12 @@ class ExpensesController
             Response::render($result)->jsonString();
         }
     }
+    /**
+     * @param object $request
+     * @return void
+     */
+    public function editExpensesTable(object $request): void
+    {
+        Response::render((array)$request)->jsonString();
+    }
 }

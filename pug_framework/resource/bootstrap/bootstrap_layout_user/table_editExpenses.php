@@ -20,7 +20,7 @@
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">จ่าย</span>
-            <input type="text" class="form-control" id="pay_expenses" name="pay_expenses" value="" onchange="payment(this, 'pay_expenses', 'price_expenses', 'qty_expenses', 'change_expenses', 'sum_expenses')" required>
+            <input type="text" class="form-control" id="pay_expenses" name="pay_expenses" value="" onchange="payment()" required>
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">รวม</span>
