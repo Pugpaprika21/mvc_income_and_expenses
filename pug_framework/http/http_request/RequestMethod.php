@@ -17,7 +17,7 @@ enum RequestMethod: string
     case PUT     = 'PUT';
 }
 /**
- * @global Https
+ * @param RequestMethod $request
  * @return object
  */
 #[RequestMethod, HttpString]
@@ -26,4 +26,13 @@ function getMethod(RequestMethod $request): object
     return (new HttpString())
         ->getUrlComponents($request::GET->value)
         ->getOne();
+}
+/**
+ * @return void
+ */
+#[URLcurrent]
+function getUrl(): void
+{
+    $url = (new URLcurrent())->currentHTTP();
+    echo $url;
 }

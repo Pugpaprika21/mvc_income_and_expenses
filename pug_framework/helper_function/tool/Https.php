@@ -24,5 +24,5 @@ class URLcurrent
     }
 }
 
-$urlNow = (new URLcurrent())->currentHTTP();
-print_r($urlNow);
+// $urlNow = (new URLcurrent())->currentHTTP();
+// print_r($urlNow);
