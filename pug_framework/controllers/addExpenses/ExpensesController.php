@@ -58,6 +58,29 @@ class ExpensesController
      */
     public function editExpensesTable(object $request): void
     {
-        Response::render((array)$request)->jsonString();
+        $sql = "UPDATE expenses_tb SET 
+                    date_expenses =:date_expenses,
+                    list_expenses =:list_expenses,
+                    price_expenses =:price_expenses,
+                    qty_expenses =:qty_expenses,
+                    pay_expenses =:pay_expenses,
+                    sum_expenses =:sum_expenses,
+                    change_expenses =:change_expenses
+                WHERE expenses_id =:expenses_id";
+
+        $result = (new Query())->update($sql, [
+            'date_expenses' => $request->date_expenses,
+            'list_expenses' => $request->list_expenses,
+            'price_expenses' => $request->price_expenses,
+            'qty_expenses' => $request->qty_expenses,
+            'pay_expenses' => $request->pay_expenses,
+            'sum_expenses' => $request->sum_expenses,
+            'change_expenses' => $request->change_expenses,
+            'expenses_id' => $request->expenses_id,
+        ]);
+
+        if ($result) {
+            Response::success();
+        }
     }
 }

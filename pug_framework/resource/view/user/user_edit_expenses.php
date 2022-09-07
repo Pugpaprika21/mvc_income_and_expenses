@@ -49,7 +49,9 @@ require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_fram
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    console.log(response);
+                    if (response.status == 200) {
+                        window.location.reload();
+                    }
                 }
             });
         });
@@ -74,6 +76,7 @@ require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_fram
                     $('#pay_expenses').val(data.pay_expenses);
                     $('#sum_expenses').val(data.sum_expenses);
                     $('#change_expenses').val(data.change_expenses);
+                    $('#expenses_id').val(data.expenses_id);
                 });
             }
         });
