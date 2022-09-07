@@ -17,6 +17,17 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
 
 ?>
 
+<style>
+    #card-profile {
+        border: none;
+    }
+
+    #card-body-profile {
+        border-radius: 5px;
+        background-color: rgb(85, 134, 203, 0.2);
+    }
+</style>
+
 <div class="container" style="padding-bottom: 40px;">
     <div class="card shadow-sm rounded" id="card-main">
         <div class="card-body">
@@ -40,14 +51,48 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
 
                         <p class="text-start">ข้อมูลรายจ่าย ประจำวันที่ <?= $dayMonthYearCutResult; ?> </p>
-                        <div class="d-flex justify-content-center">
-                            <div class="card">
-                                <div class="card-body">
-                                    <img src="../../../../../mvc_income_and_expenses/pug_framework/public/image/maxresdefault.jpg" class="rounded mx-auto d-block">
+                        <!--  -->
+                        <div class="row g-3">
+
+                            <div class="col-sm">
+                                <div class="card" id="card-profile">
+                                    <div class="card-body" id="card-body-profile">
+                                        <div class="text-center">
+                                            <img src="../../../../../mvc_income_and_expenses/pug_framework/public/image/maxresdefault.jpg" class="img-fluid rounded">
+                                        </div>
+                                        <div class="profile mt-4">
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                                                    </svg>
+                                                </span>
+                                                <input type="text" class="form-control" placeholder="Username" value="<?= $_SESSION['username']; ?>">
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
+                                                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
+                                                    </svg>
+                                                </span>
+                                                <input type="text" class="form-control" placeholder="Password" value="<?= $_SESSION['password']; ?>">
+                                            </div>
+                                        </div>
+                                        <a class="btn btn-sm btn-primary w-100" href="#" role="button">ออกจากระบบ</a>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="col-sm">
+                                <canvas id="myChart" width="20%" height="24%"></canvas>
+                            </div>
+
+                            <div class="col-sm-6">
+
+                            </div>
+
                         </div>
-                        
+                        <!--  -->
                     </div>
                     <!-- ข้อมูลรายรับ -->
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
@@ -112,7 +157,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                 success: function(response) {
                     if (response.status == 200) {
                         swlAlert('สำเร็จ', 'เพิ่มข้อมูลรายรับสำเร็จ', 'success', '');
-                        $('#formAdd_revenue_tb')[0].reset(); 
+                        $('#formAdd_revenue_tb')[0].reset();
                     }
                 }
             });
@@ -140,7 +185,6 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
     });
 
     function addRowsRevenue() {
-
         let htmlRows = '';
         let index = 0;
 
@@ -340,7 +384,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
         });
     }
 
-    (function () {
+    (function() {
         let respAjax = null;
         $.ajax({
             type: "GET",
@@ -351,27 +395,39 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
             success: function(response) {
                 let dt = $('#showRevenueData_table').DataTable({
                     data: response,
-                    columns: [
-                        {data: 'revenue_id'},
-                        {data: 'revenue_date'},
-                        {data: 'revenue_detail'},
-                        {data: 'revenue_amountOfMoney'},
-                        {data: 'revenue_vat'},
-                        {data: 'revenue_balance'},
-                        {data: null},
+                    columns: [{
+                            data: 'revenue_id'
+                        },
+                        {
+                            data: 'revenue_date'
+                        },
+                        {
+                            data: 'revenue_detail'
+                        },
+                        {
+                            data: 'revenue_amountOfMoney'
+                        },
+                        {
+                            data: 'revenue_vat'
+                        },
+                        {
+                            data: 'revenue_balance'
+                        },
+                        {
+                            data: null
+                        },
                     ],
-                    columnDefs: [
-                    {
-                        searchable: true,
-                        orderable: false,
-                        targets: 0,
-                    }, 
-                    {
-                        targets: 6,
-                        searchable: false,
-                        orderable: false,
-                        render: function(data, type, row) {
-                            return `
+                    columnDefs: [{
+                            searchable: true,
+                            orderable: false,
+                            targets: 0,
+                        },
+                        {
+                            targets: 6,
+                            searchable: false,
+                            orderable: false,
+                            render: function(data, type, row) {
+                                return `
                                 <div class="dropdown">
                                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdown-action" data-bs-toggle="dropdown" aria-expanded="false">
                                         action
@@ -382,8 +438,9 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                                     </ul>
                                 </div>
                             `;
+                            }
                         }
-                    }],
+                    ],
                     order: [
                         [1, 'asc']
                     ],
@@ -403,16 +460,20 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
         });
     })();
 
-    function getRevenuesID(revenue_id, action = '') {  
+    function getRevenuesID(revenue_id, action = '') {
         let pathApi = '';
         let toPage = '';
 
-        if (action == 'edit') { 
-            pathApi = '../../../../../mvc_income_and_expenses/pug_framework/controllers/addRevenue/edit_revenue.php'; 
-            ajaxSandData({revenue_id: revenue_id}, 'GET', pathApi, action);
+        if (action == 'edit') {
+            pathApi = '../../../../../mvc_income_and_expenses/pug_framework/controllers/addRevenue/edit_revenue.php';
+            ajaxSandData(revenue_id, {
+                revenue_id: revenue_id
+            }, 'GET', pathApi, action);
         } else if (action == 'delete') {
-            pathApi = '../../../../../mvc_income_and_expenses/pug_framework/controllers/addRevenue/delete_revenue.php'; 
-            ajaxSandData({revenue_id: revenue_id}, 'GET', pathApi, action);
+            pathApi = '../../../../../mvc_income_and_expenses/pug_framework/controllers/addRevenue/delete_revenue.php';
+            ajaxSandData(revenue_id, {
+                revenue_id: revenue_id
+            }, 'GET', pathApi, action);
         }
     }
 
@@ -427,15 +488,30 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
             success: function(response) {
                 let dt = $('#showExpensesData_table').DataTable({
                     data: response,
-                    columns: [
-                        {data: 'expenses_id'},
-                        {data: 'date_expenses'},
-                        {data: 'list_expenses'},
-                        {data: 'price_expenses'},
-                        {data: 'qty_expenses'},
-                        {data: 'pay_expenses'},
-                        {data: 'sum_expenses'},
-                        {data: 'change_expenses'},
+                    columns: [{
+                            data: 'expenses_id'
+                        },
+                        {
+                            data: 'date_expenses'
+                        },
+                        {
+                            data: 'list_expenses'
+                        },
+                        {
+                            data: 'price_expenses'
+                        },
+                        {
+                            data: 'qty_expenses'
+                        },
+                        {
+                            data: 'pay_expenses'
+                        },
+                        {
+                            data: 'sum_expenses'
+                        },
+                        {
+                            data: 'change_expenses'
+                        },
                     ],
                     columnDefs: [{
                         searchable: false,
@@ -457,19 +533,21 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                         this.data(i++);
                     });
                 }).draw();
+
+                dt.draw();
             }
         });
 
     })();
 
-    function ajaxSandData(data = {}, type = '', url = '', action = '') {
+    function ajaxSandData(revenue_id, data = {}, type = '', url = '', action = '') {
         if (action == 'edit') {
             $.ajax({
                 type: type,
                 dataType: "json",
                 url: url,
                 data: data,
-                success: function (response) {
+                success: function(response) {
                     window.location.href = response.path_url;
                 }
             });
@@ -477,7 +555,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
         } else if (action == 'delete') {
             Swal.fire({
                 title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                text: "คุณต้องการลบข้อมูลรายรับนี้หรือไม่",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -490,9 +568,9 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
                         dataType: "json",
                         url: url,
                         data: data,
-                        success: function (response) {
+                        success: function(response) {
                             if (response.status == 200) {
-                                $('#showRevenueData_table').DataTable().draw();
+                                window.location.reload();
                             }
                         }
                     });
@@ -500,6 +578,36 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
             })
         }
     }
+
+    (function() {
+
+        let elememt = "myChart";
+        let type = "bar";
+        let labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"];
+        let label = "# of Votes";
+        let data = [12, 19, 3, 5, 2, 3];
+        let backgroundColor = [
+            "rgba(255, 99, 132, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
+        ];
+
+        let borderColor = [
+            "rgba(255,99,132,1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
+        ];
+
+        let borderWidth = 1;
+        myChart(elememt, type, labels, label, data, backgroundColor, borderColor, borderWidth);
+
+    })();
 
     function getUserProfile() {
         $.ajax({

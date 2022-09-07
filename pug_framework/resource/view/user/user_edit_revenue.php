@@ -16,9 +16,17 @@ require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_fram
 ?>
 
 <div class="container" style="padding-bottom: 40px;">
-    <div class="card shadow-sm rounded" id="card-main">
-        <div class="card-body">
-            <?php require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_layout_user/table_editRevenue.php'; ?>
+    <div class="d-flex justify-content-center">
+        <div class="card shadow-sm rounded" id="card-main" style="width: 50rem;">
+            <div class="card-header" style="background-color: #1F75F1; color: #FFFFFF;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                </svg> รายรับ-รายจ่าย
+            </div>
+            <div class="card-body">
+                <?php require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_layout_user/table_editRevenue.php'; ?>
+            </div>
         </div>
     </div>
 </div>
@@ -28,11 +36,24 @@ require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_fram
 
 <script>
     $(document).ready(function() {
-        $('#editRevenue').submit(function (e) { 
+        $('#editRevenue').submit(function(e) {
             e.preventDefault();
 
-            console.log('hahaha');
-            
+            const Fd = new FormData($(this)[0]);
+            Fd.append('revenue_id', $('#revenue_id').val());
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: '../../../../../mvc_income_and_expenses/pug_framework/controllers/addRevenue/edit_revenueTable.php',
+                data: Fd,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.status == 200) {
+                        window.location.reload();
+                    }
+                }
+            });
         });
     });
 
@@ -46,73 +67,31 @@ require_once dirname(__DIR__) . '../../../../../mvc_income_and_expenses/pug_fram
                 revenue_id: urlParam
             },
             success: function(response) {
-
                 let html = ``;
                 let num = 0;
                 let index = 0;
                 response.forEach(function(data, v) {
-                    
-                    index = (index + 1);
-
-                    html = `
-                        <tr>
-                            <td>${(num + 1)}
-                                
-                            </td>
-                            <td>
-                                <div class="col">
-                                    <input type="date" class="form-control" id="revenue_date" name="revenue_date" value="${data.revenue_date}" placeholder="วันที่จ่าย" aria-label="วันที่จ่าย">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="col">
-                                    <div class="form-floating">
-                                        <textarea class="form-control" id="revenue_detail" name="revenue_detail" style="height: 20px" required>${data.revenue_detail}</textarea>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="col">
-                                    <input type="text" class="form-control revenue_amountOfMoney" id="revenue_amountOfMoney-${index}" name="revenue_amountOfMoney" value="${data.revenue_amountOfMoney}" placeholder="จำนวนเงินที่ได้" aria-label="จำนวนเงินที่ได้" onchange="calAmountOfMoneyAsVat(${index}, 'revenue_amountOfMoney', 'revenue_balance');" required> 
-                                </div>
-                            </td>
-                            <td>
-                                <div class="col">
-                                    <input type="text" class="form-control revenue_vat" id="revenue_vat-${index}" name="revenue_vat" value="${data.revenue_vat}" placeholder="หักภาษี" aria-label="หักภาษี" onchange="inputVat(${index}, 'revenue_vat', 'revenue_amountOfMoney', 'revenue_balance');">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="col">
-                                    <input type="text" class="form-control revenue_balance" id="revenue_balance-${index}" name="revenue_balance" value="${data.revenue_balance}" placeholder="คงเหลือ" aria-label="คงเหลือ" style="background-color: #CDCDCD;" readonly>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-
-                    $('#showRevenueDataEdit').append(html);
-                    num++;
+                    $('#revenue_date').val(data.revenue_date);
+                    $('#revenue_detail').val(data.revenue_detail);
+                    $('#revenue_amountOfMoney').val(data.revenue_amountOfMoney);
+                    $('#revenue_vat').val(data.revenue_vat);
+                    $('#revenue_balance').val(data.revenue_balance);
+                    $('#revenue_id').val(data.revenue_id);
                 });
             }
         });
     })();
 
-    function calAmountOfMoneyAsVat(index, elName, elNameShowResult) {
-        let concatEl = `#${elName}-${index}`;
-        let getTotal = $(concatEl).val();
-        let showBalance = `#${elNameShowResult}-${index}`;
+    function calAmountOfMoneyAsVat(_this) {
+        let eVal = _this.value;
+        $('#revenue_balance').val(eVal);
     }
 
-    function inputVat(index, elName, elCal, elShowData) {
-        let result = 0;
-        let elConcat = `#${elName}-${index}`;
-        let getVat = $(elConcat).val();
-        let elCals = `#${elCal}-${index}`;
-        let getAmount = $(elCals).val();
-        let elShow = `#${elShowData}-${index}`;
-        let sum = (parseFloat(getAmount) * parseFloat(getVat)) / 100;
-
-        result = parseFloat(getAmount) - sum;
-        $(elShow).val(result);
+    function inputVat(_this) {
+        let getRevenueAmountOfMoney = $('#revenue_amountOfMoney').val();
+        let getVat = _this.value;
+        let sum = (parseFloat(getRevenueAmountOfMoney) * parseFloat(getVat)) / 100;
+        result = parseFloat(getRevenueAmountOfMoney) - sum;
+        $('#revenue_balance').val(result);
     }
-
 </script>

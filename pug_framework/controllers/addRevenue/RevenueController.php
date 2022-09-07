@@ -71,6 +71,33 @@ class RevenueController
      * @param object $request
      * @return void
      */
+    public function editRevenueTable(object $request): void
+    {
+        $sql = "UPDATE revenue_tb SET 
+                    revenue_date =:revenue_date, 
+                    revenue_detail =:revenue_detail, 
+                    revenue_amountOfMoney =:revenue_amountOfMoney, 
+                    revenue_vat =:revenue_vat, 
+                    revenue_balance =:revenue_balance 
+                WHERE revenue_id =:revenue_id";
+        
+        $result = (new Query())->update($sql, [
+            'revenue_date' => $request->revenue_date,
+            'revenue_detail' => $request->revenue_detail,
+            'revenue_amountOfMoney' => $request->revenue_amountOfMoney,
+            'revenue_vat' => $request->revenue_vat,
+            'revenue_balance' => $request->revenue_balance,
+            'revenue_id' => $request->revenue_id,
+        ]);
+
+        if ($result) {
+            Response::success();
+        }
+    }
+    /**
+     * @param object $request
+     * @return void
+     */
     public function deleteRevenueBuId(object $request): void
     {
         $sql = "DELETE FROM revenue_tb WHERE revenue_id =:revenue_id";
