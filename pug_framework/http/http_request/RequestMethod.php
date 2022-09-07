@@ -5,6 +5,11 @@ declare(strict_types=1);
 namespace Pug_Framework\Http\Http_Request;
 
 use Pug_Framework\Helper_Function\Tool\{HttpString, URLcurrent};
+use Pug_Framework\Include\Autoload\Autoloader;
+
+require_once '../../../../mvc_income_and_expenses/pug_framework/include/autoload/Autoload.php';
+
+define('load', Autoloader::register());
 
 enum RequestMethod: string
 {
