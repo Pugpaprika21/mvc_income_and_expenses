@@ -566,29 +566,46 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
 
         let elememt = "myChart";
         let type = "bar";
-        let labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"];
+        let labels = ["รายรับ", "รายจ่าย"];
         let label = "# of Votes";
         let data = [12, 19, 3, 5, 2, 3];
         let backgroundColor = [
             "rgba(255, 99, 132, 1)",
             "rgba(54, 162, 235, 1)",
-            "rgba(255, 206, 86, 1)",
-            "rgba(75, 192, 192, 1)",
-            "rgba(153, 102, 255, 1)",
-            "rgba(255, 159, 64, 1)",
         ];
 
         let borderColor = [
-            "rgba(255,99,132,1)",
+            "rgba(255,99,132, 1)",
             "rgba(54, 162, 235, 1)",
-            "rgba(255, 206, 86, 1)",
-            "rgba(75, 192, 192, 1)",
-            "rgba(153, 102, 255, 1)",
-            "rgba(255, 159, 64, 1)",
         ];
 
         let borderWidth = 1;
-        myChart(elememt, type, labels, label, data, backgroundColor, borderColor, borderWidth);
+        
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "../../../../../mvc_income_and_expenses/pug_framework/controllers/displayData/displayChartRevenueExpenses.php",
+            success: function (response) {
+                let datas = [];
+                let revenueSum = 0;
+                let expensesSum = 0;
+                let respRevenueTb = response.revenue_tb;
+                let respExpensesTb = response.expenses_tb
+         
+                respRevenueTb.forEach(function (data, i) {  
+                    revenueSum += parseFloat(data.revenue_amountOfMoney);
+                });
+
+                respExpensesTb.forEach(function (data, i) {
+                    expensesSum += parseFloat(data.pay_expenses);
+                });
+
+                datas.push(revenueSum);
+                datas.push(expensesSum);
+
+                myChart(elememt, type, labels, label, datas, backgroundColor, borderColor, borderWidth);
+            }
+        });
 
     })();
 
