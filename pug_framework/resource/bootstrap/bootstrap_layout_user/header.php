@@ -20,8 +20,6 @@
 			font-family: 'Mitr', sans-serif;
 		}
 
-        /* dataTable showRevenueData_table and showExpensesData_table */
-
         .dataTables_length, .dataTables_filter {
             margin-bottom: 20px;
         }

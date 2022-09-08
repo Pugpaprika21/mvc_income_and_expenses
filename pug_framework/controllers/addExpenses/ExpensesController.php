@@ -83,4 +83,21 @@ class ExpensesController
             Response::success();
         }
     }
+    /**
+     * delete expenses by id
+     *
+     * @param object $request
+     * @return void
+     */
+    public function deleteExpenses(object $request): void
+    {
+        $sql = "DELETE FROM expenses_tb WHERE expenses_id =:expenses_id";
+        $result = (new Query())->delete($sql, [
+            'expenses_id' => $request->expenses_id
+        ]);
+
+        if ($result) {
+            Response::success();
+        }
+    }
 }

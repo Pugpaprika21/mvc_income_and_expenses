@@ -1,44 +1,9 @@
-<?php require_once dirname(__DIR__) . '../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_layout_default/header.php'; ?>
+<?php 
+require_once dirname(__DIR__) . '../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_layout_default/header.php';
+require_once dirname(__DIR__) . '../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_component_default/navbar_top.php'; 
+?>
 
-<style>
-    .card {
-        margin-top: 50px;
-    }
-</style>
-
-<nav class="navbar navbar-expand-lg bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand text-white" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown link
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="container">
+<div class="container mt-4">
     <div class="d-flex justify-content-center">
         <div class="card shadow rounded" style="width: 35rem;">
             <div class="card-header">
@@ -47,26 +12,7 @@
                 </svg> Login
             </div>
             <div class="card-body">
-                <div class="form-login">
-                    <form method="post">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">ชื่อผู้ใช้</span>
-                            <input type="text" class="form-control" placeholder="Username" id="username" name="username" aria-label="Username" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">รหัสผ่าน</span>
-                            <input type="text" class="form-control" placeholder="Password" id="password" name="password" aria-label="Username" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="row row-cols-lg-auto g-3 align-items-center">
-                            <div class="col-12">
-                                <button type="button" class="btn btn-sm btn-outline-primary" id="btn-register" onclick="register(this);">register</button>
-                            </div>
-                        </div>
-                        <div class="btn-submit">
-                            <button type="submit" class="btn btn-primary mt-3 w-100">Login</button>
-                        </div>
-                    </form>
-                </div>
+                <?php require_once dirname(__DIR__) . '../mvc_income_and_expenses/pug_framework/resource/bootstrap/bootstrap_layout_default/form_login.php'; ?>
             </div>
         </div>
     </div>
@@ -79,8 +25,7 @@
 
         $('.form-login').submit(function(e) {
             e.preventDefault();
-
-            let checkInput = [];
+            
             const Fd = new FormData();
             Fd.append('username', $('#username').val());
             Fd.append('password', $('#password').val());
