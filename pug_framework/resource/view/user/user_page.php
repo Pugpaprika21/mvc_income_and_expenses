@@ -567,7 +567,7 @@ require_once dirname(__DIR__) .  '../../../../../mvc_income_and_expenses/pug_fra
         let elememt = "myChart";
         let type = "bar";
         let labels = ["รายรับ", "รายจ่าย"];
-        let label = "# of Votes";
+        let label = `# รายรับ-รายจ่าย ประจำวันที่ <?= $dayMonthYearCutResult; ?>`;
         let data = [12, 19, 3, 5, 2, 3];
         let backgroundColor = [
             "rgba(255, 99, 132, 1)",
